@@ -22,8 +22,10 @@ public class DataFrame extends Object implements Cloneable{
         ArrayList<Object> helped=new ArrayList<Object>();
         System.out.println(Arrays.toString(types));
         cols=kolumny;
-
         System.out.println(Arrays.toString(cols));
+        for (int i=0; i<typy.length; i++) {
+            dataBase.put(kolumny[i], helped);
+        }
         /*for (int i=0; i<typy.length; i++){
             if (typy[i]=="int")
                 helped=new ArrayList<Integer>();
@@ -58,7 +60,7 @@ public class DataFrame extends Object implements Cloneable{
                     try{
                         method=entry.getValue().get(0).getClass().getMethod("clone");
                     }   catch (NoSuchMethodException e){
-                        System.out.println("Class:  doesn't have declared clone method");
+                        System.out.println("Class doesn't have declared clone method");
                     }
                     ArrayList<Object> clone=new ArrayList<>();
                     for (Object item : entry.getValue()) {
@@ -83,27 +85,35 @@ public class DataFrame extends Object implements Cloneable{
         int a=0;
         ArrayList<Object> helped=new ArrayList<Object>();
         for (Map.Entry<String, ArrayList<Object>> entry: dataBase.entrySet()){
-            helped=new ArrayList<Object>();
-            //Object z=entry.getValue().get(i);
-            helped.add(entry.getValue().get(i));
-            nowy.dataBase.put(cols[a],helped);
+            if (entry.getValue().size()>=i) {
+                helped = new ArrayList<Object>();
+                helped.add(entry.getValue().get(i));
+                nowy.dataBase.put(cols[a], helped);
+            }
             a++;
         }
         return nowy;
     }
 
     DataFrame iloc (int from, int to){
-        DataFrame nowy=new DataFrame(cols,types);
+        DataFrame nowy=new DataFrame();
         int a=0;
         for (Map.Entry<String, ArrayList<Object>> entry: dataBase.entrySet()){
-            ArrayList<Object> helped=new ArrayList<>();
-            for (int i=from; i<=to; i++) {
-                Object z = entry.getValue().get(i);
-                helped.add(z);                              //[sic!]
+            if (entry.getValue().size()>=to) {
+                ArrayList<Object> helped = new ArrayList<>();
+                for (int i = from; i <= to; i++) {
+                    Object z = entry.getValue().get(i);
+                    helped.add(z);                              //[sic!]
+                }
+                nowy.dataBase.put(cols[a], helped);
             }
-            nowy.dataBase.put(cols[a],helped);
             a++;
         }
         return nowy;
+    }
+
+    void zwrotka(){
+        System.out.println(Arrays.toString(cols));
+        System.out.println(Arrays.toString(types));
     }
 }
