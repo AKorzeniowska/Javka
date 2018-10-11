@@ -7,34 +7,60 @@ public class DataFrame extends Object {
     List<String> types = new ArrayList<>();
     List<String> cols = new ArrayList<>();
 
+    /**
+     * Constructor for DataFrame Class
+     * creates object with empty dataBase Map
+     */
     public DataFrame() {
         dataBase.clear();
     }
 
-    public DataFrame(String[] typy, String[] kolumny){
+    /**
+     * Constructor for DataFrame Class
+     * adds column types and names to types and cols Lists
+     * creates new ArrayLists and puts them to dataBase Map
+     * @param typesInput String Array of types that each column will keep
+     * @param colsInput String Array of names of columns
+     */
+    public DataFrame(String[] typesInput, String[] colsInput){
 
-        for (int i=0; i<typy.length; i++) {
-            types.add(typy[i]);
-            cols.add(kolumny[i]);
+        for (int i=0; i<typesInput.length; i++) {
+            types.add(typesInput[i]);
+            cols.add(colsInput[i]);
         }
 
-        for (int i=0; i<typy.length; i++) {
+        for (int i=0; i<typesInput.length; i++) {
             ArrayList<Object> helped=new ArrayList<>();
-            dataBase.put(kolumny[i], helped);
+            dataBase.put(colsInput[i], helped);
         }
     }
 
+    /**
+     * Returns size of columns assuming every column has the same size
+     * @return size of a column
+     */
     int size(){
         if (cols.size()!=0)
            return dataBase.get(cols.get(0)).size();
         return 0;
     }
 
+    /**
+     * Returns contents of a column indicated by its name
+     * @param colname String with name of the column
+     * @return contents of indicated column
+     */
     ArrayList<Object> get (String colname){
         return dataBase.get(colname);
     }
 
-
+    /**
+     * Creates copy of indicated columns from DataFrame object
+     * Depending on copy boolean, creates deep or shallow copy
+     * @param colls String Array with names of the columns to copy
+     * @param copy boolean, where: true gives deep copy, false gives shallow copy
+     * @return DataFrame object with copied columns
+     */
     public DataFrame get (String[] colls, boolean copy){
         String[] typeNames = new String[colls.length];
         for (int i = 0; i < colls.length; i++) {
@@ -60,6 +86,11 @@ public class DataFrame extends Object {
         return result;
     }
 
+    /**
+     * Creates new DataFrame object storing only one indicated row
+     * @param i number of row to copy
+     * @return DataFrame object
+     */
     DataFrame iloc (int i){
         DataFrame nowy=new DataFrame();
         if (i>=dataBase.get(cols.get(0)).size())
@@ -76,6 +107,13 @@ public class DataFrame extends Object {
         return nowy;
     }
 
+    /**
+     * Creates new DataFrame object
+     * Stores only indicated rows ranging from Integer from to Integer to
+     * @param from number of first row
+     * @param to number of last row
+     * @return DataFrame object with only indicated rows
+     */
     DataFrame iloc (int from, int to){
         DataFrame nowy=new DataFrame();
         if (to>=dataBase.get(cols.get(0)).size())
@@ -95,6 +133,10 @@ public class DataFrame extends Object {
         return nowy;
     }
 
+    /**
+     * Returns a String representation of DataFrame object
+     * @return a String representation of DataFrame object
+     */
     @Override
     public String toString() {
         return "DataFrame{" +
@@ -104,6 +146,14 @@ public class DataFrame extends Object {
                 '}';
     }
 
+    /**
+     * Adds row to DataFrame object (adds element to every ArrayList in dataBase Map)
+     * Checks whether number of given arguments is compatible to number of columns
+     * Checks whether types of given arguments are compatible with type of each column
+     * If type of argument is not a primitive type, checks whether its users type
+     * Checks for ClassNotFoundException
+     * @param input elements to put in each column
+     */
     void addElement(Object ... input){
         if (input.length!=cols.size()) {
             System.out.println("Nieodpowiednia ilość argumentów!");
