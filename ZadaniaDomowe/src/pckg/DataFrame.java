@@ -1,95 +1,76 @@
 package pckg;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-public class DataFrame extends Object implements Cloneable{
-    Map<String, ArrayList<Object>> dataBase=new HashMap<String, ArrayList<Object>>();
-    String[] types;
-    String[] cols;
+public class DataFrame extends Object {
+    Map<String, ArrayList<Object>> dataBase = new HashMap<>();
+    List<String> types = new ArrayList<>();
+    List<String> cols = new ArrayList<>();
 
-    public DataFrame(){
+    public DataFrame() {
         dataBase.clear();
     }
 
     public DataFrame(String[] typy, String[] kolumny){
-        types=typy;
-        ArrayList<Object> helped=new ArrayList<Object>();
-        System.out.println(Arrays.toString(types));
-        cols=kolumny;
-        System.out.println(Arrays.toString(cols));
+
         for (int i=0; i<typy.length; i++) {
+            types.add(typy[i]);
+            cols.add(kolumny[i]);
+        }
+
+        for (int i=0; i<typy.length; i++) {
+            ArrayList<Object> helped=new ArrayList<>();
             dataBase.put(kolumny[i], helped);
         }
-        /*for (int i=0; i<typy.length; i++){
-            if (typy[i]=="int")
-                helped=new ArrayList<Integer>();
-            else if (typy[i]=="string")
-                helped=new ArrayList<String>();
-            else if (typy[i]=="double")
-                helped=new ArrayList<Double>();
-            else if (typy[i]=="float")
-                helped=new ArrayList<Float>();
-            dataBase.put(kolumny[i],helped);
-        }*/
     }
 
     int size(){
-        if (cols.length!=0)
-            return dataBase.get(cols[0]).size();
+        if (cols.size()!=0)
+           return dataBase.get(cols.get(0)).size();
         return 0;
     }
 
-    ArrayList<?> get (String colname){
+    ArrayList<Object> get (String colname){
         return dataBase.get(colname);
     }
 
 
     public DataFrame get (String[] colls, boolean copy){
-        Method method=null;
-        DataFrame cloned=new DataFrame();
-        if (copy==true) {
-            List <String> list=Arrays.asList(colls);
-            for (Map.Entry<String, ArrayList<Object>> entry: dataBase.entrySet()){
-                if (list.contains(entry.getKey())){
-                    try{
-                        method=entry.getValue().get(0).getClass().getMethod("clone");
-                    }   catch (NoSuchMethodException e){
-                        System.out.println("Class doesn't have declared clone method");
-                    }
-                    ArrayList<Object> clone=new ArrayList<>();
-                    for (Object item : entry.getValue()) {
-                        try {
-                            clone.add(method == null ? item : method.invoke(item));
-                        }   catch (IllegalAccessException | InvocationTargetException e){
-                            e.printStackTrace();
-                        }
-                    }
-                    cloned.dataBase.put(entry.getKey(),clone);
+        String[] typeNames = new String[colls.length];
+        for (int i = 0; i < colls.length; i++) {
+            for (int j = 0; j < types.size(); j++) {
+                if(colls[i].equals(cols.get(j))){
+                    typeNames[i] = types.get(j);
                 }
             }
         }
-        if (copy==false){
-
+        DataFrame result = new DataFrame(typeNames, colls);
+        if (copy){
+            result.dataBase = new HashMap<>();
+            for (String coll : colls) {
+                result.dataBase.put(coll, new ArrayList<>(dataBase.get(coll)));
+            }
         }
-    return cloned;
+        else{
+            result.dataBase = new HashMap<>();
+            for (String coll : colls) {
+                result.dataBase.put(coll, dataBase.get(coll));
+            }
+        }
+        return result;
     }
 
     DataFrame iloc (int i){
         DataFrame nowy=new DataFrame();
+        if (i>=dataBase.get(cols.get(0)).size())
+            return nowy;
+        nowy.cols=new ArrayList<>(cols);
+        nowy.types=new ArrayList<>(types);
         int a=0;
-        ArrayList<Object> helped=new ArrayList<Object>();
         for (Map.Entry<String, ArrayList<Object>> entry: dataBase.entrySet()){
-            if (entry.getValue().size()>=i) {
-                helped = new ArrayList<Object>();
-                helped.add(entry.getValue().get(i));
-                nowy.dataBase.put(cols[a], helped);
-            }
+            ArrayList<Object> helped = new ArrayList<Object>();
+            helped.add(entry.getValue().get(i));
+            nowy.dataBase.put(cols.get(a), helped);
             a++;
         }
         return nowy;
@@ -97,23 +78,61 @@ public class DataFrame extends Object implements Cloneable{
 
     DataFrame iloc (int from, int to){
         DataFrame nowy=new DataFrame();
+        if (to>=dataBase.get(cols.get(0)).size())
+            return nowy;
+        nowy.types=new ArrayList<>(types);
+        nowy.cols=new ArrayList<>(cols);
         int a=0;
         for (Map.Entry<String, ArrayList<Object>> entry: dataBase.entrySet()){
-            if (entry.getValue().size()>=to) {
-                ArrayList<Object> helped = new ArrayList<>();
-                for (int i = from; i <= to; i++) {
-                    Object z = entry.getValue().get(i);
-                    helped.add(z);                              //[sic!]
-                }
-                nowy.dataBase.put(cols[a], helped);
+            ArrayList<Object> helped = new ArrayList<>();
+            for (int i = from; i <= to; i++) {
+                Object z = entry.getValue().get(i);
+                helped.add(z);
             }
+            nowy.dataBase.put(nowy.cols.get(a), helped);
             a++;
         }
         return nowy;
     }
 
-    void zwrotka(){
-        System.out.println(Arrays.toString(cols));
-        System.out.println(Arrays.toString(types));
+    @Override
+    public String toString() {
+        return "DataFrame{" +
+                "dataBase=" + dataBase +
+                ", types=" + types +
+                ", cols=" + cols +
+                '}';
+    }
+
+    void addElement(Object ... input){
+        if (input.length!=cols.size()) {
+            System.out.println("Nieodpowiednia ilość argumentów!");
+            return;
+        }
+        int a=0;
+        for (Object i : input) {
+            Class classed=null;
+            try{
+                if (!Class.forName("java.lang."+types.get(a)).isInstance(i)) {
+                    System.out.println("typ danych niezgodny z kolumną");
+                    return;
+                }
+            }   catch (ClassNotFoundException e){
+                try{
+                    if (!Class.forName(types.get(a)).isInstance(i)) {
+                        System.out.println("typ danych niezgodny z kolumną");
+                        return;
+                    }
+                }   catch (ClassNotFoundException g){
+                    System.out.println("Nie ma takiej klasy");
+                }
+            }
+            a++;
+        }
+        a=0;
+        for (Object i : input){
+            dataBase.get(cols.get(a)).add(i);
+            a++;
+        }
     }
 }
