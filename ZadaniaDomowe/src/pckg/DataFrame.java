@@ -1,5 +1,6 @@
 package pckg;
-
+import java.io.*;
+import java.util.Scanner;
 import java.util.*;
 
 public class DataFrame extends Object {
@@ -34,6 +35,24 @@ public class DataFrame extends Object {
             dataBase.put(colsInput[i], helped);
         }
     }
+
+    /*public DataFrame(String address, String[] typesInput) throws IOException{
+
+        FileInputStream fstream;
+        try{
+            fstream = new FileInputStream(address);
+        } catch (FileNotFoundException e){
+            System.out.println("File not found!");
+        }
+        BufferedReader br=new BufferedReader(new InputStreamReader(fstream));
+        String strLine;
+
+        try {
+            while ((strLine = br.readLine()) != null) {
+
+            }
+        }   catch (IOException z){ }
+    }*/
 
     /**
      * Returns size of columns assuming every column has the same size
