@@ -1,6 +1,5 @@
 package pckg;
 import java.io.*;
-import java.util.Scanner;
 import java.util.*;
 
 public class DataFrame extends Object {
@@ -36,23 +35,43 @@ public class DataFrame extends Object {
         }
     }
 
-    /*public DataFrame(String address, String[] typesInput) throws IOException{
+    public DataFrame(String address, String[] typesInput) throws IOException {
 
         FileInputStream fstream;
-        try{
-            fstream = new FileInputStream(address);
-        } catch (FileNotFoundException e){
-            System.out.println("File not found!");
-        }
-        BufferedReader br=new BufferedReader(new InputStreamReader(fstream));
+        BufferedReader br;
+        fstream = new FileInputStream(address);
+        if (fstream==null)
+            throw new IOException("File not found!");
+        else
+            br=new BufferedReader(new InputStreamReader(fstream));
+
         String strLine;
+        String[] separated;
+        String[] colsInput=new String[typesInput.length];
+        int flag=0;
+        while ((strLine = br.readLine()) != null) {
+            separated=strLine.split(",");
+            if (flag==0){
+                for (int i=0; i<separated.length; i++){
+                    colsInput[i]=separated[i];
+                }
+                for (int i=0; i<typesInput.length; i++) {
+                    types.add(typesInput[i]);
+                    cols.add(colsInput[i]);
+                }
 
-        try {
-            while ((strLine = br.readLine()) != null) {
-
+                for (int i=0; i<typesInput.length; i++) {
+                    ArrayList<Object> helped=new ArrayList<>();
+                    dataBase.put(colsInput[i], helped);
+                }
+                flag=1;
             }
-        }   catch (IOException z){ }
-    }*/
+            else if (flag==1){
+                System.out.println(separated.toString());
+                //addElement(separated[0], separated[1], separated[2]);
+            }
+        }
+    }
 
     /**
      * Returns size of columns assuming every column has the same size

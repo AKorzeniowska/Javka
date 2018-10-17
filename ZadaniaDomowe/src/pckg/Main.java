@@ -1,6 +1,7 @@
 package pckg;
 
 import java.util.ArrayList;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -29,5 +30,6 @@ public class Main {
         SparseDataFrame sdf=new SparseDataFrame(datas,"0");
         System.out.println(sdf);
         System.out.println(sdf.toDense());
+        DataFrame read=new DataFrame("data.csv", new String[] {"Double", "Double"});
     }
 }
