@@ -1,1 +1,1 @@
-typeSearchIndex = [{"p":"pckg","l":"DataFrame"},{"p":"pckg","l":"Main"}]
+typeSearchIndex = [{"p":"pckg","l":"CooValue"},{"p":"pckg","l":"DataFrame"},{"p":"pckg","l":"Main"},{"p":"pckg","l":"SparseDataFrame"}]

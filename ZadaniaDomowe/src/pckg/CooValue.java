@@ -6,18 +6,35 @@ public class CooValue {
 
     private Pair<Integer, Object> pair;
 
-    CooValue(int a, Object x){
+    /**
+     * Creates new pair storing the number of a row in which the Object occurred, and the Object
+     * @param a number of row Integer
+     * @param x given Object itself
+     */
+    public CooValue(int a, Object x){
         pair=new Pair<>(a,x);
     }
 
-    int getPlace (){
+    /**
+     * Returns the number of a row in which the Object occurred
+     * @return number of row Integer
+     */
+    public int getPlace (){
         return pair.getKey();
     }
 
-    Object getObject() {
+    /**
+     * Returns the Object itself
+     * @return Object
+     */
+    public Object getObject() {
         return pair.getValue();
     }
 
+    /**
+     * Returns a String representation of CooValue object
+     * @return a String representation of CooValue object
+     */
     @Override
     public String toString() {
         return ""+pair.getKey()+"-"+pair.getValue();

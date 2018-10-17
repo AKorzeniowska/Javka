@@ -2,6 +2,8 @@ package pckg;
 import java.io.*;
 import java.util.*;
 
+@SuppressWarnings("Duplicates")
+
 public class DataFrame extends Object {
     Map<String, ArrayList<Object>> dataBase = new HashMap<>();
     List<String> types = new ArrayList<>();
@@ -35,6 +37,14 @@ public class DataFrame extends Object {
         }
     }
 
+    /**
+     * Constructor for DataFrame Class
+     * Fills cols List with column names given in first line of the file
+     * Fills columns with data from file
+     * @param address String containing file's address
+     * @param typesInput String Array of types that each column will keep
+     * @throws IOException
+     */
     public DataFrame(String address, String[] typesInput) throws IOException {
 
         FileInputStream fstream;
@@ -48,28 +58,87 @@ public class DataFrame extends Object {
         String strLine;
         String[] separated;
         String[] colsInput=new String[typesInput.length];
-        int flag=0;
-        while ((strLine = br.readLine()) != null) {
-            separated=strLine.split(",");
-            if (flag==0){
-                for (int i=0; i<separated.length; i++){
-                    colsInput[i]=separated[i];
-                }
-                for (int i=0; i<typesInput.length; i++) {
-                    types.add(typesInput[i]);
-                    cols.add(colsInput[i]);
-                }
+        Object[] fixed=new Object[typesInput.length];
 
-                for (int i=0; i<typesInput.length; i++) {
-                    ArrayList<Object> helped=new ArrayList<>();
-                    dataBase.put(colsInput[i], helped);
+        strLine=br.readLine();
+        separated=strLine.split(",");
+        for (int i=0; i<separated.length; i++){
+            colsInput[i]=separated[i];
+        }
+        for (int i=0; i<typesInput.length; i++) {
+            types.add(typesInput[i]);
+            cols.add(colsInput[i]);
+        }
+
+        for (int i=0; i<typesInput.length; i++) {
+            ArrayList<Object> helped=new ArrayList<>();
+            dataBase.put(colsInput[i], helped);
+        }
+
+        //while ((strLine = br.readLine()) != null) {
+        for (int j=0; j<10; j++) {
+            strLine=br.readLine();
+            separated=strLine.split(",");
+            if(typesInput[0].equals("Double")) {
+                for (int k = 0; k < separated.length; k++) {
+                    fixed[k]=Double.parseDouble(separated[k]);
                 }
-                flag=1;
             }
-            else if (flag==1){
-                System.out.println(separated.toString());
-                //addElement(separated[0], separated[1], separated[2]);
+            else if (typesInput[0].equals("Integer")){
+                for (int k = 0; k < separated.length; k++) {
+                    fixed[k] = Integer.parseInt(separated[k]);
+                }
             }
+            addElement(fixed);
+        }
+    }
+
+    /**
+     * Costructor for DataFrame Class
+     * Fills columns with data from file
+     * @param address String containing file's address
+     * @param typesInput String Array of types that each column will keep
+     * @param colsInput String Array of names of columns
+     * @throws IOException
+     */
+    public DataFrame(String address, String[] typesInput, String[] colsInput) throws IOException {
+
+        FileInputStream fstream;
+        BufferedReader br;
+        fstream = new FileInputStream(address);
+        if (fstream==null)
+            throw new IOException("File not found!");
+        else
+            br=new BufferedReader(new InputStreamReader(fstream));
+
+        String strLine;
+        String[] separated;
+        Object[] fixed=new Object[typesInput.length];
+
+        for (int i=0; i<typesInput.length; i++) {
+            types.add(typesInput[i]);
+            cols.add(colsInput[i]);
+        }
+
+        for (int i=0; i<typesInput.length; i++) {
+            ArrayList<Object> helped=new ArrayList<>();
+            dataBase.put(colsInput[i], helped);
+        }
+        //while ((strLine = br.readLine()) != null) {
+        for (int j=0; j<10; j++) {
+            strLine=br.readLine();
+            separated=strLine.split(",");
+            if(typesInput[0].equals("Double")) {
+                for (int k = 0; k < separated.length; k++) {
+                    fixed[k]=Double.parseDouble(separated[k]);
+                }
+            }
+            else if (typesInput[0].equals("Integer")){
+                for (int k = 0; k < separated.length; k++) {
+                    fixed[k] = Integer.parseInt(separated[k]);
+                }
+            }
+            addElement(fixed);
         }
     }
 
@@ -88,7 +157,7 @@ public class DataFrame extends Object {
      * @param colname String with name of the column
      * @return contents of indicated column
      */
-    ArrayList<Object> get (String colname){
+    public ArrayList<Object> get (String colname){
         return dataBase.get(colname);
     }
 
@@ -129,7 +198,7 @@ public class DataFrame extends Object {
      * @param i number of row to copy
      * @return DataFrame object
      */
-    DataFrame iloc (int i){
+    public DataFrame iloc (int i){
         DataFrame nowy=new DataFrame();
         if (i>=dataBase.get(cols.get(0)).size())
             return nowy;
@@ -152,7 +221,7 @@ public class DataFrame extends Object {
      * @param to number of last row
      * @return DataFrame object with only indicated rows
      */
-    DataFrame iloc (int from, int to){
+    public DataFrame iloc (int from, int to){
         DataFrame nowy=new DataFrame();
         if (to>=dataBase.get(cols.get(0)).size())
             return nowy;
@@ -190,16 +259,15 @@ public class DataFrame extends Object {
      * Checks whether types of given arguments are compatible with type of each column
      * If type of argument is not a primitive type, checks whether its users type
      * Checks for ClassNotFoundException
-     * @param input elements to put in each column
+     * @param input Array of Objects to put in columns
      */
-    void addElement(Object ... input){
+    public void addElement(Object[] input){
         if (input.length!=cols.size()) {
             System.out.println("Nieodpowiednia ilość argumentów!");
             return;
         }
         int a=0;
         for (Object i : input) {
-            Class classed=null;
             try{
                 if (!Class.forName("java.lang."+types.get(a)).isInstance(i)) {
                     System.out.println("typ danych niezgodny z kolumną");
