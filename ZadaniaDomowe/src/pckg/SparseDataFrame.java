@@ -11,7 +11,7 @@ import java.util.*;
 @SuppressWarnings("Duplicates")
 
 public class SparseDataFrame extends DataFrame {
-    String hide=new String();
+    String hide = new String();
     int colsCount;
 
     /**
@@ -19,47 +19,53 @@ public class SparseDataFrame extends DataFrame {
      * adds column types and names to types and cols Lists
      * creates new ArrayLists and puts them to dataBase Map
      * Puts toHide String to hide String - precises Objects to hide
+     *
      * @param typesInput String Array of types that each column will keep
-     * @param colsInput String Array of names of columns
-     * @param toHide String precising Objects to hide
+     * @param colsInput  String Array of names of columns
+     * @param toHide     String precising Objects to hide
      */
-    public SparseDataFrame(String[] typesInput, String[] colsInput, String toHide){
-        super(typesInput, colsInput);
-        colsCount=0;
-        hide=toHide;
+    public SparseDataFrame(Class<? extends Value>[] typesInput, String[] colsInput, String toHide) {
+        super(colsInput, typesInput);
+        colsCount = 0;
+        hide = toHide;
     }
 
     /**
      * Constructor for SparseDataFrame Class
      * Converts DataFrame object to SparseDataFrame object by removing all occurrences of Objects specified in toHide String
-     * @param obj DataFrame object
+     *
+     * @param obj    DataFrame object
      * @param toHide String precising Objects to hide
      */
-    public SparseDataFrame (DataFrame obj, String toHide){
-        types=obj.types;
-        cols=obj.cols;
-        hide=toHide;
-        colsCount=obj.dataBase.get(cols.get(0)).size();
-        for (String names : cols){
-            dataBase.put(names, new ArrayList<>(obj.dataBase.get(names)));
+    public SparseDataFrame(DataFrame obj, String toHide) {
+        classes = obj.classes;
+        cols = obj.cols;
+        hide = toHide;
+        colsCount = obj.dataBase.get(cols.get(0)).size();
+        dataBase=new HashMap<>();
+        for (String names : cols) {
+            dataBase.put(names, new ArrayList<Value>(obj.dataBase.get(names)));
         }
 
-        int a=0;
-        for (Map.Entry<String, ArrayList<Object>> entry: dataBase.entrySet()){
+        int a;
+        for (Map.Entry<String, ArrayList<Value>> entry : dataBase.entrySet()) {
             a=0;
-            for (Object i : entry.getValue()){
-                if (!toHide.equals(String.valueOf(i))){
-                    CooValue z=new CooValue(a,i);
-                    entry.getValue().set(a,z);
+            for (Value i : entry.getValue()) {
+                if (!toHide.equals(i.toString())) {
+                    CooValue z = new CooValue(a, i);
+                    entry.getValue().set(a, z);
                 }
                 a++;
             }
         }
-        for (Map.Entry<String, ArrayList<Object>> entry: dataBase.entrySet()){
-            if (types.get(0).equals("Integer"))
-               entry.getValue().removeAll(Collections.singleton(Integer.parseInt(toHide)));
-            else if (types.get(0).equals("Double"))
-                entry.getValue().removeAll(Collections.singleton(Double.parseDouble(toHide)));
+        for (Map.Entry<String, ArrayList<Value>> entry: dataBase.entrySet()){
+            if (classes.get(0)==IntegerValue.class) {
+                for (int j=entry.getValue().size()-1; j>=0; j--){
+                    if (entry.getValue().get(j).toString().equals(toHide)){
+                        entry.getValue().remove(j);
+                    }
+                }
+            }
         }
     }
     /**
@@ -71,7 +77,7 @@ public class SparseDataFrame extends DataFrame {
      * @param toHide String precising data to hide
      * @throws IOException
      */
-    public SparseDataFrame(String address, String toHide, String[] typesInput) throws IOException {
+    /*public SparseDataFrame(String address, String toHide, Class <? extends Value> [] typesInput) throws IOException {
         FileInputStream fstream;
         BufferedReader br;
         hide=toHide;
@@ -92,12 +98,12 @@ public class SparseDataFrame extends DataFrame {
             colsInput[i]=separated[i];
         }
         for (int i=0; i<typesInput.length; i++) {
-            types.add(typesInput[i]);
+            classes.add(typesInput[i]);
             cols.add(colsInput[i]);
         }
 
         for (int i=0; i<typesInput.length; i++) {
-            ArrayList<Object> helped=new ArrayList<>();
+            ArrayList<Value> helped=new ArrayList<>();
             dataBase.put(colsInput[i], helped);
         }
 
@@ -117,7 +123,8 @@ public class SparseDataFrame extends DataFrame {
             }
             addElement(fixed);
         }
-    }
+    }*/
+
     /**
      * Adds row to DataFrame object (adds element to every ArrayList in dataBase Map)
      * Checks whether number of given arguments is compatible to number of columns
@@ -126,17 +133,18 @@ public class SparseDataFrame extends DataFrame {
      * Checks for ClassNotFoundException
      * If Object is not equal to hide String, creates new CooValue and puts it to ArrayList
      * CooValue's Key is the number of rows by far (presented by colsCount)
+     *
      * @param input Array of Objects to put in columns
      */
-    @Override
-    public void addElement(Object[] input) {
+    //@Override
+    public void addElement(Value[] input) {
         if (input.length != cols.size()) {
             System.out.println("Nieodpowiednia ilość argumentów!");
             return;
         }
         int a = 0;
         for (Object i : input) {
-            try {
+            /*try {
                 if (!Class.forName("java.lang." + types.get(a)).isInstance(i)) {
                     System.out.println("typ danych niezgodny z kolumną");
                     return;
@@ -151,12 +159,18 @@ public class SparseDataFrame extends DataFrame {
                     System.out.println("Nie ma takiej klasy");
                 }
             }
+            a++;*/
+
+            if (classes.get(a) != i.getClass()) {
+                System.out.println("typ danych niezgodny z kolumna");
+                return;
+            }
             a++;
         }
-        a=0;
-        for (Object i : input){
+        a = 0;
+        for (Value i : input) {
             if (!hide.equals(String.valueOf(i))) {
-                CooValue z=new CooValue(colsCount,i);
+                CooValue z = new CooValue(colsCount, i);
                 dataBase.get(cols.get(a)).add(z);
             }
             a++;
@@ -164,6 +178,7 @@ public class SparseDataFrame extends DataFrame {
         }
         colsCount++;
     }
+
 
     /**
      * Creates DataFrame object from SparseDataFrame object
@@ -173,24 +188,22 @@ public class SparseDataFrame extends DataFrame {
      */
     public DataFrame toDense () {
         DataFrame data = new DataFrame();
-        data.types = types;
+        data.classes = classes;
         data.cols = cols;
-        for (int i = 0; i < types.size(); i++) {
-            ArrayList<Object> helped = new ArrayList<>();
-            if (types.get(0).equals("Integer")) {
+        CooValue a= (CooValue) dataBase.get(cols.get(0)).get(0);
+        Value y=a.getObject();
+        for (int i = 0; i < classes.size(); i++) {
+            ArrayList<Value> helped = new ArrayList<>();
+            if (classes.get(0)==y.getClass()) {
                 for (int j = 0; j < colsCount; j++) {
-                    helped.add(Integer.parseInt(hide));
+                    y.create(hide);
+                    helped.add(y);
                 }
+                data.dataBase.put(cols.get(i), helped);
             }
-            else if (types.get(0).equals("Double")) {
-                for (int j = 0; j < colsCount; j++) {
-                    helped.add(Double.parseDouble(hide));
-                }
-            }
-            data.dataBase.put(cols.get(i), helped);
         }
-        for (Map.Entry<String, ArrayList<Object>> entry : dataBase.entrySet()) {
-            for (Object i : entry.getValue()) {
+        for (Map.Entry<String, ArrayList<Value>> entry : dataBase.entrySet()) {
+            for (Value i : entry.getValue()) {
                 CooValue pair = (CooValue) i;
                 data.dataBase.get(entry.getKey()).set(pair.getPlace(), pair.getObject());
             }

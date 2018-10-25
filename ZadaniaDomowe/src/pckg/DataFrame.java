@@ -1,12 +1,15 @@
 package pckg;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.lang.reflect.Method;
+
 
 @SuppressWarnings("Duplicates")
 
 public class DataFrame extends Object {
-    Map<String, ArrayList<Object>> dataBase = new HashMap<>();
-    List<String> types = new ArrayList<>();
+    Map<String, ArrayList<Value>> dataBase = new HashMap<>();
+    List <Class <? extends Value>> classes=new ArrayList<>();
     List<String> cols = new ArrayList<>();
 
     /**
@@ -24,15 +27,14 @@ public class DataFrame extends Object {
      * @param typesInput String Array of types that each column will keep
      * @param colsInput String Array of names of columns
      */
-    public DataFrame(String[] typesInput, String[] colsInput){
-
-        for (int i=0; i<typesInput.length; i++) {
-            types.add(typesInput[i]);
+    public DataFrame(String [] colsInput, Class <? extends Value> [] typesInput){
+        for (int i=0; i<colsInput.length; i++) {
+            classes.add(typesInput[i]);
             cols.add(colsInput[i]);
         }
 
-        for (int i=0; i<typesInput.length; i++) {
-            ArrayList<Object> helped=new ArrayList<>();
+        for (int i=0; i<colsInput.length; i++) {
+            ArrayList<Value> helped=new ArrayList<>();
             dataBase.put(colsInput[i], helped);
         }
     }
@@ -45,7 +47,7 @@ public class DataFrame extends Object {
      * @param typesInput String Array of types that each column will keep
      * @throws IOException
      */
-    public DataFrame(String address, String[] typesInput) throws IOException {
+    public DataFrame(String address, Class <? extends Value> [] typesInput) throws IOException, InvocationTargetException, IllegalAccessException {
 
         FileInputStream fstream;
         BufferedReader br;
@@ -58,7 +60,7 @@ public class DataFrame extends Object {
         String strLine;
         String[] separated;
         String[] colsInput=new String[typesInput.length];
-        Object[] fixed=new Object[typesInput.length];
+        Value[] fixed=new Value[typesInput.length];
 
         strLine=br.readLine();
         separated=strLine.split(",");
@@ -66,12 +68,12 @@ public class DataFrame extends Object {
             colsInput[i]=separated[i];
         }
         for (int i=0; i<typesInput.length; i++) {
-            types.add(typesInput[i]);
+            classes.add(typesInput[i]);
             cols.add(colsInput[i]);
         }
 
         for (int i=0; i<typesInput.length; i++) {
-            ArrayList<Object> helped=new ArrayList<>();
+            ArrayList<Value> helped=new ArrayList<>();
             dataBase.put(colsInput[i], helped);
         }
 
@@ -79,18 +81,19 @@ public class DataFrame extends Object {
         for (int j=0; j<10; j++) {
             strLine=br.readLine();
             separated=strLine.split(",");
-            if(typesInput[0].equals("Double")) {
-                for (int k = 0; k < separated.length; k++) {
-                    fixed[k]=Double.parseDouble(separated[k]);
-                }
-            }
-            else if (typesInput[0].equals("Integer")){
-                for (int k = 0; k < separated.length; k++) {
-                    fixed[k] = Integer.parseInt(separated[k]);
+            for (int k=0; k<separated.length; k++){
+                try {
+                    Method getInstance = typesInput[k].getMethod("getInstance");
+                    Object instancja = getInstance.invoke(null);
+                    Method method = typesInput[k].getMethod("create", String.class);
+                    fixed[k] = (Value) method.invoke(instancja, separated[k]);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
                 }
             }
             addElement(fixed);
         }
+        br.close();
     }
 
     /**
@@ -101,7 +104,7 @@ public class DataFrame extends Object {
      * @param colsInput String Array of names of columns
      * @throws IOException
      */
-    public DataFrame(String address, String[] typesInput, String[] colsInput) throws IOException {
+    /*public DataFrame(String address, Class <? extends Value> [] typesInput, String[] colsInput) throws IOException {
 
         FileInputStream fstream;
         BufferedReader br;
@@ -113,34 +116,27 @@ public class DataFrame extends Object {
 
         String strLine;
         String[] separated;
-        Object[] fixed=new Object[typesInput.length];
+        Value[] fixed=new Value[typesInput.length];
 
         for (int i=0; i<typesInput.length; i++) {
-            types.add(typesInput[i]);
+            classes.add(typesInput[i]);
             cols.add(colsInput[i]);
         }
 
         for (int i=0; i<typesInput.length; i++) {
-            ArrayList<Object> helped=new ArrayList<>();
+            ArrayList<Value> helped=new ArrayList<>();
             dataBase.put(colsInput[i], helped);
         }
         //while ((strLine = br.readLine()) != null) {
         for (int j=0; j<10; j++) {
-            strLine=br.readLine();
-            separated=strLine.split(",");
-            if(typesInput[0].equals("Double")) {
-                for (int k = 0; k < separated.length; k++) {
-                    fixed[k]=Double.parseDouble(separated[k]);
-                }
-            }
-            else if (typesInput[0].equals("Integer")){
-                for (int k = 0; k < separated.length; k++) {
-                    fixed[k] = Integer.parseInt(separated[k]);
-                }
+            strLine = br.readLine();
+            separated = strLine.split(",");
+            for (int k = 0; k < separated.length; k++) {
+                fixed[k]= //nowy obiekt typu z classes
             }
             addElement(fixed);
         }
-    }
+    }*/
 
     /**
      * Returns size of columns assuming every column has the same size
@@ -157,7 +153,7 @@ public class DataFrame extends Object {
      * @param colname String with name of the column
      * @return contents of indicated column
      */
-    public ArrayList<Object> get (String colname){
+    public ArrayList<Value> get (String colname){
         return dataBase.get(colname);
     }
 
@@ -169,15 +165,15 @@ public class DataFrame extends Object {
      * @return DataFrame object with copied columns
      */
     public DataFrame get (String[] colls, boolean copy){
-        String[] typeNames = new String[colls.length];
+        Class <? extends Value> [] typeNames = new Class [colls.length];
         for (int i = 0; i < colls.length; i++) {
-            for (int j = 0; j < types.size(); j++) {
+            for (int j = 0; j < classes.size(); j++) {
                 if(colls[i].equals(cols.get(j))){
-                    typeNames[i] = types.get(j);
+                    typeNames[i] = classes.get(j);
                 }
             }
         }
-        DataFrame result = new DataFrame(typeNames, colls);
+        DataFrame result = new DataFrame(colls, typeNames);
         if (copy){
             result.dataBase = new HashMap<>();
             for (String coll : colls) {
@@ -200,14 +196,15 @@ public class DataFrame extends Object {
      */
     public DataFrame iloc (int i){
         DataFrame nowy=new DataFrame();
-        if (i>=dataBase.get(cols.get(0)).size())
-            return nowy;
+
+
         nowy.cols=new ArrayList<>(cols);
-        nowy.types=new ArrayList<>(types);
+        nowy.classes=new ArrayList<>(classes);
         int a=0;
-        for (Map.Entry<String, ArrayList<Object>> entry: dataBase.entrySet()){
-            ArrayList<Object> helped = new ArrayList<Object>();
-            helped.add(entry.getValue().get(i));
+        for (Map.Entry<String, ArrayList<Value>> entry: dataBase.entrySet()){
+            ArrayList<Value> helped = new ArrayList<Value>();
+            if (entry.getValue().size()>i)
+                helped.add(entry.getValue().get(i));
             nowy.dataBase.put(cols.get(a), helped);
             a++;
         }
@@ -223,15 +220,16 @@ public class DataFrame extends Object {
      */
     public DataFrame iloc (int from, int to){
         DataFrame nowy=new DataFrame();
-        if (to>=dataBase.get(cols.get(0)).size())
-            return nowy;
-        nowy.types=new ArrayList<>(types);
+        int x;
+        nowy.classes=new ArrayList<>(classes);
         nowy.cols=new ArrayList<>(cols);
         int a=0;
-        for (Map.Entry<String, ArrayList<Object>> entry: dataBase.entrySet()){
-            ArrayList<Object> helped = new ArrayList<>();
-            for (int i = from; i <= to; i++) {
-                Object z = entry.getValue().get(i);
+        for (Map.Entry<String, ArrayList<Value>> entry: dataBase.entrySet()){
+            ArrayList<Value> helped = new ArrayList<>();
+            if (entry.getValue().size()>to) { x=to; }
+            else {x=entry.getValue().size()-1; }
+            for (int i = from; i <= x; i++) {
+                Value z = entry.getValue().get(i);
                 helped.add(z);
             }
             nowy.dataBase.put(nowy.cols.get(a), helped);
@@ -244,11 +242,12 @@ public class DataFrame extends Object {
      * Returns a String representation of DataFrame object
      * @return a String representation of DataFrame object
      */
+
     @Override
     public String toString() {
         return "DataFrame{" +
                 "dataBase=" + dataBase +
-                ", types=" + types +
+                ", classes=" + classes +
                 ", cols=" + cols +
                 '}';
     }
@@ -261,32 +260,21 @@ public class DataFrame extends Object {
      * Checks for ClassNotFoundException
      * @param input Array of Objects to put in columns
      */
-    public void addElement(Object[] input){
+    public void addElement(Value [] input){
         if (input.length!=cols.size()) {
             System.out.println("Nieodpowiednia ilość argumentów!");
             return;
         }
         int a=0;
-        for (Object i : input) {
-            try{
-                if (!Class.forName("java.lang."+types.get(a)).isInstance(i)) {
-                    System.out.println("typ danych niezgodny z kolumną");
-                    return;
-                }
-            }   catch (ClassNotFoundException e){
-                try{
-                    if (!Class.forName(types.get(a)).isInstance(i)) {
-                        System.out.println("typ danych niezgodny z kolumną");
-                        return;
-                    }
-                }   catch (ClassNotFoundException g){
-                    System.out.println("Nie ma takiej klasy");
-                }
+        for (Value i : input) {
+            if (classes.get(a)!=i.getClass()){
+                System.out.println("typ danych niezgodny z kolumna");
+                return;
             }
             a++;
         }
         a=0;
-        for (Object i : input){
+        for (Value i : input){
             dataBase.get(cols.get(a)).add(i);
             a++;
         }
