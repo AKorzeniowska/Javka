@@ -6,17 +6,24 @@ import java.util.Date;
 
 public class DateTimeValue extends Value {
     Date value;
-    SimpleDateFormat form=new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+    SimpleDateFormat form=new SimpleDateFormat("yyyy-MM-dd");
 
     public DateTimeValue (){
         value=new Date();
     }
+
+    public static DateTimeValue getInstance(){
+        return new DateTimeValue();
+    }
+
     public DateTimeValue create (String a){
         DateTimeValue x=new DateTimeValue();
         Date t;
+        if (!a.contains("-")){
+            a+="-00-00";
+        }
         try {
             t = form.parse(a);
-            System.out.println(t);
             x.value=t;
         } catch (ParseException e) {
             System.out.println("Unparseable using " + form);
@@ -49,7 +56,7 @@ public class DateTimeValue extends Value {
     }
 
     public boolean eq(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -59,7 +66,7 @@ public class DateTimeValue extends Value {
     }
 
     public boolean lte(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -69,7 +76,7 @@ public class DateTimeValue extends Value {
     }
 
     public boolean gte(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -79,7 +86,7 @@ public class DateTimeValue extends Value {
     }
 
     public boolean neq(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }

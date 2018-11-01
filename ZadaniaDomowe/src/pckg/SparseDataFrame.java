@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 @SuppressWarnings("Duplicates")
@@ -14,6 +16,14 @@ public class SparseDataFrame extends DataFrame {
     String hide = new String();
     int colsCount;
 
+    /**
+     * Constructor for SparseDataFrame Class, inherited from DataFrame Class
+     * creates object with empty DataBase map and empty hide String
+     */
+    public SparseDataFrame (){
+        super();
+        hide="";
+    }
     /**
      * Constructor for SparseDataFrame Class, inherited from DataFrame Class
      * adds column types and names to types and cols Lists
@@ -77,7 +87,7 @@ public class SparseDataFrame extends DataFrame {
      * @param toHide String precising data to hide
      * @throws IOException
      */
-    /*public SparseDataFrame(String address, String toHide, Class <? extends Value> [] typesInput) throws IOException {
+    public SparseDataFrame(String address, String toHide, Class <? extends Value> [] typesInput) throws IOException, InvocationTargetException, IllegalAccessException {
         FileInputStream fstream;
         BufferedReader br;
         hide=toHide;
@@ -90,7 +100,7 @@ public class SparseDataFrame extends DataFrame {
         String strLine;
         String[] separated;
         String[] colsInput=new String[typesInput.length];
-        Object[] fixed=new Object[typesInput.length];
+        Value[] fixed=new Value[typesInput.length];
 
         strLine=br.readLine();
         separated=strLine.split(",");
@@ -109,21 +119,22 @@ public class SparseDataFrame extends DataFrame {
 
         //while ((strLine = br.readLine()) != null) {
         for (int j=0; j<10; j++) {
-            strLine = br.readLine();
-            separated = strLine.split(",");
-            if(typesInput[0].equals("Double")) {
-                for (int k = 0; k < separated.length; k++) {
-                    fixed[k]=Double.parseDouble(separated[k]);
-                }
-            }
-            else if (typesInput[0].equals("Integer")){
-                for (int k = 0; k < separated.length; k++) {
-                    fixed[k] = Integer.parseInt(separated[k]);
+            strLine=br.readLine();
+            separated=strLine.split(",");
+            for (int k=0; k<separated.length; k++){
+                try {
+                    Method getInstance = typesInput[k].getMethod("getInstance");
+                    Object instancja = getInstance.invoke(null);
+                    Method method = typesInput[k].getMethod("create", String.class);
+                    fixed[k] = (Value) method.invoke(instancja, separated[k]);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
                 }
             }
             addElement(fixed);
         }
-    }*/
+        br.close();
+    }
 
     /**
      * Adds row to DataFrame object (adds element to every ArrayList in dataBase Map)
@@ -144,23 +155,6 @@ public class SparseDataFrame extends DataFrame {
         }
         int a = 0;
         for (Object i : input) {
-            /*try {
-                if (!Class.forName("java.lang." + types.get(a)).isInstance(i)) {
-                    System.out.println("typ danych niezgodny z kolumną");
-                    return;
-                }
-            } catch (ClassNotFoundException e) {
-                try {
-                    if (!Class.forName(types.get(a)).isInstance(i)) {
-                        System.out.println("typ danych niezgodny z kolumną");
-                        return;
-                    }
-                } catch (ClassNotFoundException g) {
-                    System.out.println("Nie ma takiej klasy");
-                }
-            }
-            a++;*/
-
             if (classes.get(a) != i.getClass()) {
                 System.out.println("typ danych niezgodny z kolumna");
                 return;
@@ -169,12 +163,11 @@ public class SparseDataFrame extends DataFrame {
         }
         a = 0;
         for (Value i : input) {
-            if (!hide.equals(String.valueOf(i))) {
+            if (!hide.equals(i.toString())) {
                 CooValue z = new CooValue(colsCount, i);
                 dataBase.get(cols.get(a)).add(z);
             }
             a++;
-
         }
         colsCount++;
     }
@@ -196,8 +189,8 @@ public class SparseDataFrame extends DataFrame {
             ArrayList<Value> helped = new ArrayList<>();
             if (classes.get(0)==y.getClass()) {
                 for (int j = 0; j < colsCount; j++) {
-                    y.create(hide);
-                    helped.add(y);
+                    Value z=y.create(hide);
+                    helped.add(z);
                 }
                 data.dataBase.put(cols.get(i), helped);
             }
@@ -209,6 +202,57 @@ public class SparseDataFrame extends DataFrame {
             }
         }
         return data;
+    }
+
+    /**
+     * Creates new SparseDataFrame object storing data from only one indicated row (if such data exist)
+     * @param i number of row to copy
+     * @return SparseDataFrame object with one row at max
+     */
+    public SparseDataFrame iloc (int i){
+        SparseDataFrame nowy = new SparseDataFrame();
+        nowy.cols=new ArrayList<>(cols);
+        nowy.classes=new ArrayList<>(classes);
+        for (int k=0; k<cols.size(); k++){
+            nowy.dataBase.put(cols.get(k), new ArrayList<>());
+        }
+        if (colsCount<=i)
+            return nowy;
+        for (Map.Entry<String, ArrayList<Value>> entry : dataBase.entrySet()){
+            for (Value x : entry.getValue()){
+                CooValue y=(CooValue) x;
+                if (y.getPlace()==i){
+                    nowy.dataBase.get(entry.getKey()).add(y);
+                }
+            }
+        }
+        return nowy;
+    }
+
+    /**Creates new SparseDataFrame object
+     * Stores only data from indicated rows (if such data exist) ranging from Integer a to Integer b
+     * @param a number of first row
+     * @param b number of last row
+     * @return SparseDataFrame object with data from indicated rows
+     */
+    public SparseDataFrame iloc (int a, int b){
+        SparseDataFrame nowy = new SparseDataFrame();
+        nowy.cols=new ArrayList<>(cols);
+        nowy.classes=new ArrayList<>(classes);
+        for (int k=0; k<cols.size(); k++){
+            nowy.dataBase.put(cols.get(k), new ArrayList<>());
+        }
+        if (colsCount<=a)
+            return nowy;
+        for (Map.Entry<String, ArrayList<Value>> entry : dataBase.entrySet()){
+            for (Value x : entry.getValue()){
+                CooValue y=(CooValue) x;
+                if (y.getPlace()>=a && y.getPlace()<=b){
+                    nowy.dataBase.get(entry.getKey()).add(y);
+                }
+            }
+        }
+        return nowy;
     }
 
     /**

@@ -1,1 +1,1 @@
-typeSearchIndex = [{"p":"pckg","l":"CooValue"},{"p":"pckg","l":"DataFrame"},{"p":"pckg","l":"Main"},{"p":"pckg","l":"SparseDataFrame"}]
+typeSearchIndex = [{"p":"pckg","l":"Applyable"},{"p":"pckg","l":"CooValue"},{"p":"pckg","l":"DataFrame"},{"p":"pckg","l":"DateTimeValue"},{"p":"pckg","l":"DoubleValue"},{"p":"pckg","l":"FloatValue"},{"p":"pckg","l":"Groupby"},{"p":"pckg","l":"IntegerValue"},{"p":"pckg","l":"Main"},{"p":"pckg","l":"SparseDataFrame"},{"p":"pckg","l":"StringValue"},{"p":"pckg","l":"Value"}]

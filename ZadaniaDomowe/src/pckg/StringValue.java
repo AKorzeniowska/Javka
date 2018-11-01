@@ -3,9 +3,16 @@ package pckg;
 public class StringValue extends Value {
     public String value=new String();
 
+    public StringValue () {}
+
+    public static StringValue getInstance(){
+        return new StringValue();
+    }
+
     public StringValue create (String a){
-        value=a;
-        return this;
+        StringValue x=new StringValue();
+        x.value=a;
+        return x;
     }
 
     public StringValue (String a){
@@ -17,7 +24,7 @@ public class StringValue extends Value {
     }
 
     public Value add(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -26,7 +33,7 @@ public class StringValue extends Value {
     }
 
     public Value sub(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -35,7 +42,7 @@ public class StringValue extends Value {
     }
 
     public Value mul(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -44,7 +51,7 @@ public class StringValue extends Value {
     }
 
     public Value div(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -53,7 +60,7 @@ public class StringValue extends Value {
     }
 
     public Value pow(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -62,7 +69,7 @@ public class StringValue extends Value {
     }
 
     public boolean eq(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -72,7 +79,7 @@ public class StringValue extends Value {
     }
 
     public boolean lte(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -82,7 +89,7 @@ public class StringValue extends Value {
     }
 
     public boolean gte(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -91,7 +98,7 @@ public class StringValue extends Value {
         return false;}
 
     public boolean neq(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }

@@ -5,13 +5,20 @@ import java.lang.Math;
 public class IntegerValue extends Value {
     public Integer value;
 
+    public IntegerValue () {}
+
+    public static IntegerValue getInstance(){
+        return new IntegerValue();
+    }
+
     public IntegerValue (int a){
         value=a;
     }
 
     public IntegerValue create(String a){
-        value=Integer.parseInt(a);
-        return this;
+        IntegerValue x=new IntegerValue();
+        x.value=Integer.parseInt(a);
+        return x;
     }
 
     public String toString() {
@@ -19,7 +26,8 @@ public class IntegerValue extends Value {
     }
 
     public Value add (Value a){
-        if (!a.getClass().isInstance(value)){
+        System.out.println(a.getClass()+" "+this.getClass());
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -28,7 +36,7 @@ public class IntegerValue extends Value {
     }
 
     public Value sub(Value a){
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -37,7 +45,7 @@ public class IntegerValue extends Value {
     }
 
     public Value mul(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -47,7 +55,7 @@ public class IntegerValue extends Value {
 
 
     public Value div(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -56,7 +64,7 @@ public class IntegerValue extends Value {
     }
 
     public Value pow(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -65,7 +73,7 @@ public class IntegerValue extends Value {
     }
 
     public boolean eq(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -75,7 +83,7 @@ public class IntegerValue extends Value {
     }
 
     public boolean lte(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -84,7 +92,7 @@ public class IntegerValue extends Value {
         return false;    }
 
     public boolean gte(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -94,7 +102,7 @@ public class IntegerValue extends Value {
     }
 
     public boolean neq(Value a) {
-        if (!a.getClass().isInstance(value)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }

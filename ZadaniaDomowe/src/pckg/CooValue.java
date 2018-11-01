@@ -57,7 +57,7 @@ public class CooValue extends Value{
     }
 
     public Value add(Value a) {
-        if (!a.getClass().isInstance(pair)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -70,7 +70,7 @@ public class CooValue extends Value{
     }
 
     public Value sub(Value a) {
-        if (!a.getClass().isInstance(pair)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -83,7 +83,7 @@ public class CooValue extends Value{
     }
 
     public Value mul(Value a) {
-        if (!a.getClass().isInstance(pair)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -96,7 +96,7 @@ public class CooValue extends Value{
     }
 
     public Value div(Value a) {
-        if (!a.getClass().isInstance(pair)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -110,7 +110,7 @@ public class CooValue extends Value{
 
 
     public Value pow(Value a) {
-        if (!a.getClass().isInstance(pair)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;
         }
@@ -123,7 +123,7 @@ public class CooValue extends Value{
     }
 
     public boolean eq(Value a) {
-        if (!a.getClass().isInstance(pair)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -135,7 +135,7 @@ public class CooValue extends Value{
     }
 
     public boolean lte(Value a) {
-        if (!a.getClass().isInstance(pair)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -147,7 +147,7 @@ public class CooValue extends Value{
     }
 
     public boolean gte(Value a) {
-        if (!a.getClass().isInstance(pair)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }
@@ -159,7 +159,7 @@ public class CooValue extends Value{
     }
 
     public boolean neq(Value a) {
-        if (!a.getClass().isInstance(pair)){
+        if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return false;
         }

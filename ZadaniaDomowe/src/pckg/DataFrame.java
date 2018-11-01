@@ -1,4 +1,5 @@
 package pckg;
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
@@ -78,7 +79,7 @@ public class DataFrame extends Object {
         }
 
         //while ((strLine = br.readLine()) != null) {
-        for (int j=0; j<10; j++) {
+        for (int j=0; j<30; j++) {
             strLine=br.readLine();
             separated=strLine.split(",");
             for (int k=0; k<separated.length; k++){
@@ -89,7 +90,10 @@ public class DataFrame extends Object {
                     fixed[k] = (Value) method.invoke(instancja, separated[k]);
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
+                } catch (InvocationTargetException e){
+                    e.printStackTrace();
                 }
+
             }
             addElement(fixed);
         }
@@ -104,7 +108,7 @@ public class DataFrame extends Object {
      * @param colsInput String Array of names of columns
      * @throws IOException
      */
-    /*public DataFrame(String address, Class <? extends Value> [] typesInput, String[] colsInput) throws IOException {
+    public DataFrame(String address, Class <? extends Value> [] typesInput, String[] colsInput) throws IOException, InvocationTargetException, IllegalAccessException {
 
         FileInputStream fstream;
         BufferedReader br;
@@ -128,15 +132,22 @@ public class DataFrame extends Object {
             dataBase.put(colsInput[i], helped);
         }
         //while ((strLine = br.readLine()) != null) {
-        for (int j=0; j<10; j++) {
-            strLine = br.readLine();
-            separated = strLine.split(",");
-            for (int k = 0; k < separated.length; k++) {
-                fixed[k]= //nowy obiekt typu z classes
+        for (int j=0; j<30; j++) {
+            strLine=br.readLine();
+            separated=strLine.split(",");
+            for (int k=0; k<separated.length; k++){
+                try {
+                    Method getInstance = typesInput[k].getMethod("getInstance");
+                    Object instancja = getInstance.invoke(null);
+                    Method method = typesInput[k].getMethod("create", String.class);
+                    fixed[k] = (Value) method.invoke(instancja, separated[k]);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
             }
             addElement(fixed);
         }
-    }*/
+    }
 
     /**
      * Returns size of columns assuming every column has the same size
@@ -155,6 +166,21 @@ public class DataFrame extends Object {
      */
     public ArrayList<Value> get (String colname){
         return dataBase.get(colname);
+    }
+
+    /**
+     * Creates new empty DataFrame object, ready to be filled with data
+     * New object has the same columns' names and classes as original object
+     * @return new empty DataFrame
+     */
+    public DataFrame emptyDataFrame (){
+        DataFrame nowy=new DataFrame();
+        nowy.cols=cols;
+        nowy.classes=classes;
+        for (int i=0; i<cols.size(); i++){
+            nowy.dataBase.put(cols.get(i), new ArrayList<>());
+        }
+        return nowy;
     }
 
     /**
@@ -196,20 +222,17 @@ public class DataFrame extends Object {
      */
     public DataFrame iloc (int i){
         DataFrame nowy=new DataFrame();
-
-
         nowy.cols=new ArrayList<>(cols);
         nowy.classes=new ArrayList<>(classes);
-        int a=0;
         for (Map.Entry<String, ArrayList<Value>> entry: dataBase.entrySet()){
             ArrayList<Value> helped = new ArrayList<Value>();
             if (entry.getValue().size()>i)
                 helped.add(entry.getValue().get(i));
-            nowy.dataBase.put(cols.get(a), helped);
-            a++;
+            nowy.dataBase.put(entry.getKey(), helped);
         }
         return nowy;
     }
+
 
     /**
      * Creates new DataFrame object
@@ -239,17 +262,33 @@ public class DataFrame extends Object {
     }
 
     /**
+     * Adds one DataFrame object at the end of another DataFrame object as new rows
+     * Using iloc(i) as an argument allows to add only one exact row
+     * NOTE: doesn't check whether columns' names are the same in both DataFrames
+     * @param a DataFrame object to add at the end
+     * @return this DataFrame object with added rows
+     */
+    public DataFrame addRow (DataFrame a){
+        for (Map.Entry<String, ArrayList<Value>> entry : a.dataBase.entrySet()){
+            for (int s=0; s<entry.getValue().size(); s++) {
+                dataBase.get(entry.getKey()).add(entry.getValue().get(s));
+            }
+        }
+        return this;
+    }
+
+    /**
      * Returns a String representation of DataFrame object
      * @return a String representation of DataFrame object
      */
 
     @Override
     public String toString() {
-        return "DataFrame{" +
-                "dataBase=" + dataBase +
-                ", classes=" + classes +
-                ", cols=" + cols +
-                '}';
+        String toString=new String();
+        for (Map.Entry<String, ArrayList<Value>> entry : dataBase.entrySet()){
+            toString+=entry.getKey() + ":" + entry.getValue().toString()+"\n";
+        }
+        return toString;
     }
 
     /**
@@ -268,7 +307,7 @@ public class DataFrame extends Object {
         int a=0;
         for (Value i : input) {
             if (classes.get(a)!=i.getClass()){
-                System.out.println("typ danych niezgodny z kolumna");
+                System.out.println("typ danych niezgodny z kolumna: "+classes.get(a)+" "+i.getClass());
                 return;
             }
             a++;
@@ -278,5 +317,175 @@ public class DataFrame extends Object {
             dataBase.get(cols.get(a)).add(i);
             a++;
         }
+    }
+
+    /**
+     * Inner class, enables grouping data in DataFrames
+     * Contains HashMap in which the Keys are different Values from columns by which the DataFrame is grouped
+     * The Values in HashMap are smaller DataFrames
+     * Implements Groupby interface, that enables finding specific values in smaller DataFrames
+     */
+    class DataMap extends DataFrame implements Groupby{
+        HashMap<Value, DataFrame> map =new HashMap<>();
+
+        public DataMap (){
+            map.clear();
+        }
+
+        @Override
+        public String toString() {
+            String toString=new String();
+            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+                toString+=entry.getKey() + ":" + entry.getValue().toString()+"\n";
+            }
+            return toString;
+        }
+
+        /**
+         * For every smaller DataFrame searches for max Value
+         * Creates new max Value element equal to 0 according to each column type
+         * Iterates on each column and checks whether Value object is bigger than current max Value
+         * Puts found max Value to Value array; when Value array has the right amount of elements, it's put into new DataFrame by addElemet()
+         * @return new DataFrame object containing only max Values for each Key
+         */
+        @Override
+        public DataFrame max() {
+            DataFrame nowy=emptyDataFrame();
+            Value[] input=new Value[cols.size()];
+            Value x=null;
+            int iterator=1;
+            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+                for (Map.Entry<String, ArrayList<Value>> second : entry.getValue().dataBase.entrySet()){
+                    try {
+                        Method getInstance = second.getValue().get(0).getClass().getMethod("getInstance");
+                        Object instancja = getInstance.invoke(null);
+                        Method method = second.getValue().get(0).getClass().getMethod("create", String.class);
+                        x = (Value) method.invoke(instancja, "0");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                    for (Value z : second.getValue()){
+                        if (z.gte(x))
+                            x=z;
+                    }
+                    input[0]=entry.getKey();
+                    input[iterator]=x;
+                    iterator++;
+                    if (iterator==cols.size()) {
+                        iterator = 0;
+                        nowy.addElement(input);
+                    }
+                }
+            }
+            return nowy;
+        }
+
+        /**
+         * For every smaller DataFrame searches for min Value
+         * Creates new min Value element equal to 1000000 according to each column type
+         * Iterates on each column and checks whether Value object is bigger than current max Value
+         * Puts found min Value to Value array; when Value array has the right amount of elements, it's put into new DataFrame by addElemet()
+         * @return new DataFrame object containing only min Values for each Key
+         */
+        @Override
+        public DataFrame min() {
+            DataFrame nowy=emptyDataFrame();
+            Value[] input=new Value[cols.size()];
+            Value x=null;
+            int iterator=1;
+            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+                for (Map.Entry<String, ArrayList<Value>> second : entry.getValue().dataBase.entrySet()){
+                    try {
+                        Method getInstance = second.getValue().get(0).getClass().getMethod("getInstance");
+                        Object instancja = getInstance.invoke(null);
+                        Method method = second.getValue().get(0).getClass().getMethod("create", String.class);
+                        x = (Value) method.invoke(instancja, "1000000");
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                    for (Value z : second.getValue()){
+                        if (z.lte(x))
+                            x=z;
+                    }
+                    input[0]=entry.getKey();
+                    input[iterator]=x;
+                    iterator++;
+                    if (iterator==cols.size()) {
+                        iterator = 0;
+                        nowy.addElement(input);
+                    }
+                }
+            }
+            return nowy;
+        }
+
+        @Override
+        public DataFrame mean() {
+            return null;
+        }
+
+        @Override
+        public DataFrame std() {
+            return null;
+        }
+
+        @Override
+        public DataFrame sum() {
+            return null;
+        }
+
+        @Override
+        public DataFrame var() {
+            return null;
+        }
+
+        @Override
+        public DataFrame apply(Applyable x) {
+            return null;
+        }
+    }
+
+    /**
+     * Creates new DataMap object, which contains new, smaller DataFrame objects grouped by given column
+     * Iterates through given column's Values and adds them as Keys to map if they're not in KeySet()
+     * Adds a row to DataFrame object stored as map's Value using addRow(iloc(current_row))
+     * @param colnames String with names of columns to group by
+     * @return new DataMap object
+     */
+    public DataMap groupby (String[] colnames){
+        DataMap var=new DataMap();
+        DataFrame ret=this.emptyDataFrame();
+        var.cols=cols;
+        var.classes=classes;
+        int flag=1;
+        for (int k=0; k<dataBase.get(colnames[0]).size(); k++){
+            List <Value> list=new ArrayList<Value>(var.map.keySet());
+            if(list.isEmpty())
+               var.map.put(dataBase.get(colnames[0]).get(k), ret);
+            else{
+                for (int i=0; i<list.size(); i++){
+                    if (list.get(i).eq(dataBase.get(colnames[0]).get(k)))   flag=0;
+                }
+                if (flag==1){
+                    ret=this.emptyDataFrame();
+                    var.map.put(dataBase.get(colnames[0]).get(k), ret);
+                }
+                flag=1;
+            }
+            for (Map.Entry<Value, DataFrame> entry : var.map.entrySet()) {
+                if (entry.getKey().eq(dataBase.get(colnames[0]).get(k))){
+                    entry.getValue().addRow(this.iloc(k));
+                }
+            }
+        }
+        return var;
     }
 }

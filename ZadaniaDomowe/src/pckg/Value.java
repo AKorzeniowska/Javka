@@ -1,6 +1,6 @@
 package pckg;
 
-public abstract class Value {
+public abstract class Value implements Cloneable{
     public abstract  Value create (String a);
     public abstract String toString();
     public abstract Value add(Value a);
