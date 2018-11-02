@@ -341,6 +341,22 @@ public class DataFrame extends Object {
             return toString;
         }
 
+        public Value creator(String value, Value get){
+            Value x=null;
+            try {
+                Method getInstance = get.getClass().getMethod("getInstance");
+                Object instancja = getInstance.invoke(null);
+                Method method = get.getClass().getMethod("create", String.class);
+                x = (Value) method.invoke(instancja, "0");
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+            return x;
+        }
         /**
          * For every smaller DataFrame searches for max Value
          * Creates new max Value element equal to 0 according to each column type
@@ -348,7 +364,7 @@ public class DataFrame extends Object {
          * Puts found max Value to Value array; when Value array has the right amount of elements, it's put into new DataFrame by addElemet()
          * @return new DataFrame object containing only max Values for each Key
          */
-        @Override
+/*        @Override
         public DataFrame max() {
             DataFrame nowy=emptyDataFrame();
             Value[] input=new Value[cols.size()];
@@ -356,21 +372,36 @@ public class DataFrame extends Object {
             int iterator=1;
             for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
                 for (Map.Entry<String, ArrayList<Value>> second : entry.getValue().dataBase.entrySet()){
-                    try {
-                        Method getInstance = second.getValue().get(0).getClass().getMethod("getInstance");
-                        Object instancja = getInstance.invoke(null);
-                        Method method = second.getValue().get(0).getClass().getMethod("create", String.class);
-                        x = (Value) method.invoke(instancja, "0");
-                    } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
+                    x=creator("0",second.getValue().get(0));
                     for (Value z : second.getValue()){
                         if (z.gte(x))
                             x=z;
+                    }
+                    input[0]=entry.getKey();
+                    input[iterator]=x;
+                    iterator++;
+                    if (iterator==cols.size()) {
+                        iterator = 0;
+                        System.out.println(Arrays.toString(input));
+                        nowy.addElement(input);
+                    }
+                }
+            }
+            return nowy;
+        }*/
+        @Override
+        public DataFrame max() {
+            DataFrame nowy=emptyDataFrame();
+            Value[] input=new Value[cols.size()];
+            Value x=null;
+            int iterator=0;
+            for (Map.Entry<Value, DataFrame> entry : map.entrySet()) {
+                for (int k = 0; k < cols.size(); k++) {
+                    x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
+                    for (Value z : entry.getValue().dataBase.get(cols.get(k))){
+                        if (z.gte(x)){
+                            x=z;
+                        }
                     }
                     input[0]=entry.getKey();
                     input[iterator]=x;
@@ -396,22 +427,10 @@ public class DataFrame extends Object {
             DataFrame nowy=emptyDataFrame();
             Value[] input=new Value[cols.size()];
             Value x=null;
-            int iterator=1;
-            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
-                for (Map.Entry<String, ArrayList<Value>> second : entry.getValue().dataBase.entrySet()){
-                    try {
-                        Method getInstance = second.getValue().get(0).getClass().getMethod("getInstance");
-                        Object instancja = getInstance.invoke(null);
-                        Method method = second.getValue().get(0).getClass().getMethod("create", String.class);
-                        x = (Value) method.invoke(instancja, "1000000");
-                    } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                    for (Value z : second.getValue()){
+            int iterator=0;
+            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){for (int k = 0; k < cols.size(); k++) {
+                x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
+                for (Value z : entry.getValue().dataBase.get(cols.get(k))){
                         if (z.lte(x))
                             x=z;
                     }
@@ -429,22 +448,126 @@ public class DataFrame extends Object {
 
         @Override
         public DataFrame mean() {
-            return null;
+            DataFrame nowy=emptyDataFrame();
+            Value[] input=new Value[cols.size()];
+            Value x=null;
+            int counter=0;
+            int iterator=0;
+            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+                for (int k = 0; k < cols.size(); k++) {
+                    x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
+                    for (Value z : entry.getValue().dataBase.get(cols.get(k))){
+                        x=x.add(z);
+                        counter++;
+                    }
+                    Value count=x.create(String.valueOf(counter));
+                    x=x.div(count);
+                    input[0]=entry.getKey();
+                    input[iterator]=x;
+                    iterator++;
+                    counter=0;
+                    if (iterator==cols.size()) {
+                        iterator = 0;
+                        nowy.addElement(input);
+                    }
+                }
+            }
+            return nowy;
         }
 
         @Override
         public DataFrame std() {
-            return null;
+            DataFrame nowy=emptyDataFrame();
+            Value[] input=new Value[cols.size()];
+            Value x=null;
+            int counter=0;
+            int iterator=0;
+            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+                for (int k = 0; k < cols.size(); k++) {
+                    x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
+                    for (Value z : entry.getValue().dataBase.get(cols.get(k))){
+                        x=x.add(z);
+                        counter++;
+                    }
+                    Value count=x.create(String.valueOf(counter));
+                    x=x.div(count);
+                    Value sum=x.create(String.valueOf("0"));
+                    for (Value z : entry.getValue().dataBase.get(cols.get(k))){
+                        Value var=(z.sub(x)).pow(z.create("2"));
+                        sum=sum.add(var);
+                    }
+                    sum=sum.div(count);
+                    input[0]=entry.getKey();
+                    input[iterator]=sum;
+                    iterator++;
+                    counter=0;
+                    if (iterator==cols.size()) {
+                        iterator = 0;
+                        nowy.addElement(input);
+                    }
+                }
+            }
+            return nowy;
         }
 
         @Override
         public DataFrame sum() {
-            return null;
+            DataFrame nowy=emptyDataFrame();
+            Value[] input=new Value[cols.size()];
+            Value x=null;
+            int iterator=0;
+            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+                for (int k = 0; k < cols.size(); k++) {
+                    x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
+                    for (Value z : entry.getValue().dataBase.get(cols.get(k))){
+                        x=x.add(z);
+                    }
+                    input[0]=entry.getKey();
+                    input[iterator]=x;
+                    iterator++;
+                    if (iterator==cols.size()) {
+                        iterator = 0;
+                        nowy.addElement(input);
+                    }
+                }
+            }
+            return nowy;
         }
 
         @Override
         public DataFrame var() {
-            return null;
+            DataFrame nowy=emptyDataFrame();
+            Value[] input=new Value[cols.size()];
+            Value x=null;
+            int counter=0;
+            int iterator=0;
+            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+                for (int k = 0; k < cols.size(); k++) {
+                    x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
+                    for (Value z : entry.getValue().dataBase.get(cols.get(k))){
+                        x=x.add(z);
+                        counter++;
+                    }
+                    Value count=x.create(String.valueOf(counter));
+                    x=x.div(count);
+                    Value sum=x.create(String.valueOf("0"));
+                    for (Value z : entry.getValue().dataBase.get(cols.get(k))){
+                        Value d=z;
+                        Value var=(d.sub(x)).pow(d.create("2"));
+                        sum=sum.add(var);
+                    }
+                    sum=sum.div(count);
+                    input[0]=entry.getKey();
+                    input[iterator]=sum;
+                    iterator++;
+                    counter=0;
+                    if (iterator==cols.size()) {
+                        iterator = 0;
+                        nowy.addElement(input);
+                    }
+                }
+            }
+            return nowy;
         }
 
         @Override

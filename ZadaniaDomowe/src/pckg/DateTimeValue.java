@@ -9,7 +9,13 @@ public class DateTimeValue extends Value {
     SimpleDateFormat form=new SimpleDateFormat("yyyy-MM-dd");
 
     public DateTimeValue (){
+        String a="0000-00-00";
         value=new Date();
+        try {
+            value = form.parse(a);
+        } catch (ParseException e) {
+        System.out.println("Unparseable using " + form);
+        }
     }
 
     public static DateTimeValue getInstance(){
@@ -26,7 +32,7 @@ public class DateTimeValue extends Value {
             t = form.parse(a);
             x.value=t;
         } catch (ParseException e) {
-            System.out.println("Unparseable using " + form);
+            //System.out.println("Unparseable using " + form);
         }
         return x;
     }
@@ -36,23 +42,35 @@ public class DateTimeValue extends Value {
     }
 
     public Value add(Value a) {
-        return null;
+        if (!a.getClass().isInstance(this)){
+            System.out.println("Typ niezgodny");
+            return null;
+        }
+        long sum=this.value.getTime()+((DateTimeValue)a).value.getTime();
+        value=new Date(sum);
+        return this;
     }
 
     public Value sub(Value a) {
-        return null;
+        if (!a.getClass().isInstance(this)){
+            System.out.println("Typ niezgodny");
+            return null;
+        }
+        long sum=this.value.getTime()-((DateTimeValue)a).value.getTime();
+        value=new Date(sum);
+        return this;
     }
 
     public Value mul(Value a) {
-        return null;
+        return this;
     }
 
     public Value div(Value a) {
-        return null;
+        return this;
     }
 
     public Value pow(Value a) {
-        return null;
+        return this;
     }
 
     public boolean eq(Value a) {

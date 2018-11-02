@@ -92,11 +92,22 @@ public class Main {
 //        System.out.println(f.min());
 //
         DataFrame najnowszy=new DataFrame("groupby.csv",new Class[] {StringValue.class, DateTimeValue.class, DoubleValue.class, DoubleValue.class});
-        System.out.println(najnowszy);
+//        System.out.println(najnowszy);
         DataFrame.DataMap n=najnowszy.groupby(new String[] {"id"});
+//        System.out.println(n);
+//        System.out.println(n.max());
+//        System.out.println(n.min());
+//        System.out.println(n.sum());                                    //              FIX DATETIMEVALUE.ADD()
+//        System.out.println(n.mean());
         System.out.println(n);
-        System.out.println(n.max());
-        System.out.println(n.min());
+        System.out.println(n.var());
+        System.out.println(n);
+        System.out.println(n.var());
+        System.out.println(n);
+        //System.out.println(n.std());
+        //Value a=new DoubleValue(320140);
+        //System.out.println(a.pow(a.create("0.5")));
+
 //        IntegerValue a=new IntegerValue(5);
 //        a.add(new IntegerValue(10));
 //        System.out.println(a);
