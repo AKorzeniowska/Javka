@@ -659,4 +659,47 @@ public class DataFrame extends Object {
         }
         return var;
     }
+
+    public DataMap grouped (String [] colnames){
+        DataMap var=new DataMap();
+        int flag=1;
+        int counter=0;
+
+        for (int j=0; j<this.dataBase.get(cols.get(0)).size(); j++){
+            List<Value> helped=new ArrayList<>();
+            DataFrame frame=this.emptyDataFrame();
+            for (int i=0; i<colnames.length; i++) {
+                if (i==0 && !var.map.keySet().isEmpty()){
+
+                    for (List<Value> elem : var.map.keySet()){
+                        counter=0;
+                        for (int k=0; k<colnames.length; k++) {
+                            if (this.dataBase.get(colnames[k]).get(j).eq(elem.get(k))) {
+                                counter++;
+                            }
+                        }
+                        if (counter==colnames.length) {
+                            flag = 0;
+                            var.map.get(elem).addRow(iloc(j));
+                        }
+                    }
+                }
+                   helped.add(this.dataBase.get(colnames[i]).get(j));
+            }
+            if (flag!=0) {
+                frame.addRow(iloc(j));
+                var.map.put(helped, frame);
+            }
+            flag=1;
+        }
+        System.out.println(var.map.keySet());
+        for (int z=0; z<colnames.length; z++) {
+            for (int k = 0; k < dataBase.get(colnames[z]).size(); k++) {
+                this.dataBase.get(colnames[z]).get(k);
+            }
+        }
+
+
+        return var;
+    }
 }
