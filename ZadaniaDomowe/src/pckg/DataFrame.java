@@ -341,13 +341,21 @@ public class DataFrame extends Object {
             return toString;
         }
 
+        /**
+         * Creates new Value object; its class is the same as given get Value object
+         * new Value object is created according to given String value
+         * function checks for NoSuchMethodException, IllegalAccessException, InvocationTargetException
+         * @param value String value of value that new Value object will contain
+         * @param get Value object; its class will be passed while creating new Value
+         * @return new Value object with the same class as get Value object
+         */
         public Value creator(String value, Value get){
             Value x=null;
             try {
                 Method getInstance = get.getClass().getMethod("getInstance");
                 Object instancja = getInstance.invoke(null);
                 Method method = get.getClass().getMethod("create", String.class);
-                x = (Value) method.invoke(instancja, "0");
+                x = (Value) method.invoke(instancja, value);
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -357,38 +365,14 @@ public class DataFrame extends Object {
             }
             return x;
         }
+
         /**
          * For every smaller DataFrame searches for max Value
-         * Creates new max Value element equal to 0 according to each column type
+         * Creates new max Value element equal to -1000000 according to each column type
          * Iterates on each column and checks whether Value object is bigger than current max Value
          * Puts found max Value to Value array; when Value array has the right amount of elements, it's put into new DataFrame by addElemet()
          * @return new DataFrame object containing only max Values for each Key
          */
-/*        @Override
-        public DataFrame max() {
-            DataFrame nowy=emptyDataFrame();
-            Value[] input=new Value[cols.size()];
-            Value x=null;
-            int iterator=1;
-            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
-                for (Map.Entry<String, ArrayList<Value>> second : entry.getValue().dataBase.entrySet()){
-                    x=creator("0",second.getValue().get(0));
-                    for (Value z : second.getValue()){
-                        if (z.gte(x))
-                            x=z;
-                    }
-                    input[0]=entry.getKey();
-                    input[iterator]=x;
-                    iterator++;
-                    if (iterator==cols.size()) {
-                        iterator = 0;
-                        System.out.println(Arrays.toString(input));
-                        nowy.addElement(input);
-                    }
-                }
-            }
-            return nowy;
-        }*/
         @Override
         public DataFrame max() {
             DataFrame nowy=emptyDataFrame();
@@ -397,7 +381,8 @@ public class DataFrame extends Object {
             int iterator=0;
             for (Map.Entry<Value, DataFrame> entry : map.entrySet()) {
                 for (int k = 0; k < cols.size(); k++) {
-                    x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
+                    x=creator("-1000000", entry.getValue().dataBase.get(cols.get(k)).get(0));
+                    System.out.println(x +" "+x.getClass());
                     for (Value z : entry.getValue().dataBase.get(cols.get(k))){
                         if (z.gte(x)){
                             x=z;
@@ -418,7 +403,7 @@ public class DataFrame extends Object {
         /**
          * For every smaller DataFrame searches for min Value
          * Creates new min Value element equal to 1000000 according to each column type
-         * Iterates on each column and checks whether Value object is bigger than current max Value
+         * Iterates on each column and checks whether Value object is smaller than current min Value
          * Puts found min Value to Value array; when Value array has the right amount of elements, it's put into new DataFrame by addElemet()
          * @return new DataFrame object containing only min Values for each Key
          */
@@ -446,6 +431,14 @@ public class DataFrame extends Object {
             return nowy;
         }
 
+        /**
+         * For every smaller DataFrame counts mean Value
+         * Creates new Value element equal to 0 according to each column type
+         * Iterates on each column and sums all Values
+         * Divides counted sum by number of elements in column creating mean
+         * Puts found mean Value to Value array; when Value array has the right amount of elements, it's put into new DataFrame by addElemet()
+         * @return new DataFrame object containing only mean Values for each Key
+         */
         @Override
         public DataFrame mean() {
             DataFrame nowy=emptyDataFrame();
@@ -475,6 +468,16 @@ public class DataFrame extends Object {
             return nowy;
         }
 
+        /**
+         * For every smaller DataFrame counts standard deviation Value
+         * Creates new Value element equal to 0 according to each column type
+         * Iterates on each column and sums all Values
+         * Divides counted sum by number of elements in column creating mean
+         * Iterates again on column, for each element counts new var Value equal to ((element from column).sub(created mean)).pow(2)
+         * Adds each var Value to sum, then sum=squareRoot(sum)
+         * Puts found sum Value to Value array; when Value array has the right amount of elements, it's put into new DataFrame by addElemet()
+         * @return new DataFrame object containing only standard deviation Values for each Key
+         */
         @Override
         public DataFrame std() {
             DataFrame nowy=emptyDataFrame();
@@ -493,10 +496,12 @@ public class DataFrame extends Object {
                     x=x.div(count);
                     Value sum=x.create(String.valueOf("0"));
                     for (Value z : entry.getValue().dataBase.get(cols.get(k))){
-                        Value var=(z.sub(x)).pow(z.create("2"));
+                        Value d=z.create(z.toString());
+                        Value var=(d.sub(x)).pow(d.create("2"));
                         sum=sum.add(var);
                     }
                     sum=sum.div(count);
+                    sum=sum.pow(sum.create("0.5"));
                     input[0]=entry.getKey();
                     input[iterator]=sum;
                     iterator++;
@@ -510,6 +515,13 @@ public class DataFrame extends Object {
             return nowy;
         }
 
+        /**
+         * For every smaller DataFrame counts standard deviation Value
+         * Creates new Value element equal to 0 according to each column type
+         * Iterates on each column and sums all Values
+         * Puts found sums Value to Value array; when Value array has the right amount of elements, it's put into new DataFrame by addElemet()
+         * @return new DataFrame object containing only sum Values for each Key
+         */
         @Override
         public DataFrame sum() {
             DataFrame nowy=emptyDataFrame();
@@ -534,6 +546,16 @@ public class DataFrame extends Object {
             return nowy;
         }
 
+        /**
+         * For every smaller DataFrame counts variation Value
+         * Creates new Value element equal to 0 according to each column type
+         * Iterates on each column and sums all Values
+         * Divides counted sum by number of elements in column creating mean
+         * Iterates again on column, for each element counts new var Value equal to ((element from column).sub(created mean)).pow(2)
+         * Adds each var Value to sum
+         * Puts found sum Value to Value array; when Value array has the right amount of elements, it's put into new DataFrame by addElemet()
+         * @return new DataFrame object containing only variation Values for each Key
+         */
         @Override
         public DataFrame var() {
             DataFrame nowy=emptyDataFrame();
@@ -552,7 +574,7 @@ public class DataFrame extends Object {
                     x=x.div(count);
                     Value sum=x.create(String.valueOf("0"));
                     for (Value z : entry.getValue().dataBase.get(cols.get(k))){
-                        Value d=z;
+                        Value d=z.create(z.toString());
                         Value var=(d.sub(x)).pow(d.create("2"));
                         sum=sum.add(var);
                     }

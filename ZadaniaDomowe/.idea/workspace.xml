@@ -61,12 +61,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="32840" />
+          <entry key="java" value="33887" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="32840" />
+          <entry key="JAVA" value="33887" />
         </counts>
       </usages-collector>
     </session>
@@ -76,8 +76,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pckg/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="105" column="28" selection-start-line="105" selection-start-column="28" selection-end-line="105" selection-end-column="28" />
+            <state relative-caret-position="210">
+              <caret line="14" selection-start-line="14" selection-end-line="18" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -88,12 +88,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pckg/DataFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="547" column="33" selection-start-line="547" selection-start-column="33" selection-end-line="547" selection-end-column="33" />
+            <state relative-caret-position="152">
+              <caret line="475" column="122" lean-forward="true" selection-start-line="475" selection-start-column="122" selection-end-line="475" selection-end-column="122" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#19894#19895#0" expanded="true" />
-                <element signature="e#19929#19930#0" expanded="true" />
+                <element signature="e#21462#21463#0" expanded="true" />
+                <element signature="e#21497#21498#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -183,8 +183,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>class</find>
-      <find>name</find>
       <find>indi</find>
       <find>equ</find>
       <find>new str</find>
@@ -213,6 +211,8 @@
       <find>pow</find>
       <find>addelement(V</find>
       <find>var()</find>
+      <find>std()</find>
+      <find>creator(s</find>
     </findStrings>
     <replaceStrings>
       <replace>pair</replace>
@@ -231,8 +231,8 @@
         <option value="$PROJECT_DIR$/src/pckg/SparseDataFrame.java" />
         <option value="$PROJECT_DIR$/src/pckg/StringValue.java" />
         <option value="$PROJECT_DIR$/src/pckg/DateTimeValue.java" />
-        <option value="$PROJECT_DIR$/src/pckg/DataFrame.java" />
         <option value="$PROJECT_DIR$/src/pckg/Main.java" />
+        <option value="$PROJECT_DIR$/src/pckg/DataFrame.java" />
       </list>
     </option>
   </component>
@@ -248,7 +248,7 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-73" />
     <option name="y" value="41" />
     <option name="width" value="1346" />
@@ -367,15 +367,15 @@
       <workItem from="1540382351601" duration="27094000" />
       <workItem from="1540539787314" duration="10138000" />
       <workItem from="1541076165382" duration="18929000" />
-      <workItem from="1541175839108" duration="8174000" />
+      <workItem from="1541175839108" duration="11598000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132407000" />
+    <option name="totallyTimeSpent" value="135831000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18229954" />
@@ -586,8 +586,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pckg/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="105" column="28" selection-start-line="105" selection-start-column="28" selection-end-line="105" selection-end-column="28" />
+        <state relative-caret-position="210">
+          <caret line="14" selection-start-line="14" selection-end-line="18" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -596,12 +596,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pckg/DataFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="547" column="33" selection-start-line="547" selection-start-column="33" selection-end-line="547" selection-end-column="33" />
+        <state relative-caret-position="152">
+          <caret line="475" column="122" lean-forward="true" selection-start-line="475" selection-start-column="122" selection-end-line="475" selection-end-column="122" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#19894#19895#0" expanded="true" />
-            <element signature="e#19929#19930#0" expanded="true" />
+            <element signature="e#21462#21463#0" expanded="true" />
+            <element signature="e#21497#21498#0" expanded="true" />
           </folding>
         </state>
       </provider>
