@@ -17,6 +17,8 @@ public class IntegerValue extends Value {
 
     public IntegerValue create(String a){
         IntegerValue x=new IntegerValue();
+        if (Double.parseDouble(a)<0.0)
+            a="0";
         x.value=Integer.parseInt(a);
         return x;
     }

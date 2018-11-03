@@ -326,7 +326,7 @@ public class DataFrame extends Object {
      * Implements Groupby interface, that enables finding specific values in smaller DataFrames
      */
     class DataMap extends DataFrame implements Groupby{
-        HashMap<Value, DataFrame> map =new HashMap<>();
+        HashMap<List<Value>, DataFrame> map =new HashMap<>();
 
         public DataMap (){
             map.clear();
@@ -335,8 +335,8 @@ public class DataFrame extends Object {
         @Override
         public String toString() {
             String toString=new String();
-            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
-                toString+=entry.getKey() + ":" + entry.getValue().toString()+"\n";
+            for (Map.Entry<List<Value>, DataFrame> entry : map.entrySet()){
+                toString+=entry.getKey().toString() + " : " + entry.getValue().toString()+"\n";
             }
             return toString;
         }
@@ -379,17 +379,18 @@ public class DataFrame extends Object {
             Value[] input=new Value[cols.size()];
             Value x=null;
             int iterator=0;
-            for (Map.Entry<Value, DataFrame> entry : map.entrySet()) {
+            for (Map.Entry<List<Value>, DataFrame> entry : map.entrySet()) {
                 for (int k = 0; k < cols.size(); k++) {
                     x=creator("-1000000", entry.getValue().dataBase.get(cols.get(k)).get(0));
-                    System.out.println(x +" "+x.getClass());
                     for (Value z : entry.getValue().dataBase.get(cols.get(k))){
                         if (z.gte(x)){
                             x=z;
                         }
                     }
-                    input[0]=entry.getKey();
-                    input[iterator]=x;
+                    if (entry.getKey().size()>iterator)
+                        input[iterator]=entry.getKey().get(iterator);
+                    else
+                        input[iterator]=x;
                     iterator++;
                     if (iterator==cols.size()) {
                         iterator = 0;
@@ -413,15 +414,17 @@ public class DataFrame extends Object {
             Value[] input=new Value[cols.size()];
             Value x=null;
             int iterator=0;
-            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){for (int k = 0; k < cols.size(); k++) {
-                x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
+            for (Map.Entry<List<Value>, DataFrame> entry : map.entrySet()){for (int k = 0; k < cols.size(); k++) {
+                x=creator("100000", entry.getValue().dataBase.get(cols.get(k)).get(0));
                 for (Value z : entry.getValue().dataBase.get(cols.get(k))){
                         if (z.lte(x))
                             x=z;
                     }
-                    input[0]=entry.getKey();
+                if (entry.getKey().size()>iterator)
+                    input[iterator]=entry.getKey().get(iterator);
+                else
                     input[iterator]=x;
-                    iterator++;
+                iterator++;
                     if (iterator==cols.size()) {
                         iterator = 0;
                         nowy.addElement(input);
@@ -446,7 +449,7 @@ public class DataFrame extends Object {
             Value x=null;
             int counter=0;
             int iterator=0;
-            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+            for (Map.Entry<List<Value>, DataFrame> entry : map.entrySet()){
                 for (int k = 0; k < cols.size(); k++) {
                     x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
                     for (Value z : entry.getValue().dataBase.get(cols.get(k))){
@@ -455,8 +458,10 @@ public class DataFrame extends Object {
                     }
                     Value count=x.create(String.valueOf(counter));
                     x=x.div(count);
-                    input[0]=entry.getKey();
-                    input[iterator]=x;
+                    if (entry.getKey().size()>iterator)
+                        input[iterator]=entry.getKey().get(iterator);
+                    else
+                        input[iterator]=x;
                     iterator++;
                     counter=0;
                     if (iterator==cols.size()) {
@@ -485,7 +490,7 @@ public class DataFrame extends Object {
             Value x=null;
             int counter=0;
             int iterator=0;
-            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+            for (Map.Entry<List<Value>, DataFrame> entry : map.entrySet()){
                 for (int k = 0; k < cols.size(); k++) {
                     x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
                     for (Value z : entry.getValue().dataBase.get(cols.get(k))){
@@ -502,8 +507,10 @@ public class DataFrame extends Object {
                     }
                     sum=sum.div(count);
                     sum=sum.pow(sum.create("0.5"));
-                    input[0]=entry.getKey();
-                    input[iterator]=sum;
+                    if (entry.getKey().size()>iterator)
+                        input[iterator]=entry.getKey().get(iterator);
+                    else
+                        input[iterator]=sum;
                     iterator++;
                     counter=0;
                     if (iterator==cols.size()) {
@@ -528,14 +535,16 @@ public class DataFrame extends Object {
             Value[] input=new Value[cols.size()];
             Value x=null;
             int iterator=0;
-            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+            for (Map.Entry<List<Value>, DataFrame> entry : map.entrySet()){
                 for (int k = 0; k < cols.size(); k++) {
                     x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
                     for (Value z : entry.getValue().dataBase.get(cols.get(k))){
                         x=x.add(z);
                     }
-                    input[0]=entry.getKey();
-                    input[iterator]=x;
+                    if (entry.getKey().size()>iterator)
+                        input[iterator]=entry.getKey().get(iterator);
+                    else
+                        input[iterator]=x;
                     iterator++;
                     if (iterator==cols.size()) {
                         iterator = 0;
@@ -563,7 +572,7 @@ public class DataFrame extends Object {
             Value x=null;
             int counter=0;
             int iterator=0;
-            for (Map.Entry<Value, DataFrame> entry : map.entrySet()){
+            for (Map.Entry<List<Value>, DataFrame> entry : map.entrySet()){
                 for (int k = 0; k < cols.size(); k++) {
                     x=creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
                     for (Value z : entry.getValue().dataBase.get(cols.get(k))){
@@ -579,8 +588,10 @@ public class DataFrame extends Object {
                         sum=sum.add(var);
                     }
                     sum=sum.div(count);
-                    input[0]=entry.getKey();
-                    input[iterator]=sum;
+                    if (entry.getKey().size()>iterator)
+                        input[iterator]=entry.getKey().get(iterator);
+                    else
+                        input[iterator]=sum;
                     iterator++;
                     counter=0;
                     if (iterator==cols.size()) {
@@ -599,8 +610,8 @@ public class DataFrame extends Object {
     }
 
     /**
-     * Creates new DataMap object, which contains new, smaller DataFrame objects grouped by given column
-     * Iterates through given column's Values and adds them as Keys to map if they're not in KeySet()
+     * Creates new DataMap object, which contains new, smaller DataFrame objects grouped by given columns
+     * Iterates through given columns' Values and adds them as Keys to map if they're not in KeySet()
      * Adds a row to DataFrame object stored as map's Value using addRow(iloc(current_row))
      * @param colnames String with names of columns to group by
      * @return new DataMap object
@@ -611,23 +622,38 @@ public class DataFrame extends Object {
         var.cols=cols;
         var.classes=classes;
         int flag=1;
-        for (int k=0; k<dataBase.get(colnames[0]).size(); k++){
-            List <Value> list=new ArrayList<Value>(var.map.keySet());
-            if(list.isEmpty())
-               var.map.put(dataBase.get(colnames[0]).get(k), ret);
-            else{
-                for (int i=0; i<list.size(); i++){
-                    if (list.get(i).eq(dataBase.get(colnames[0]).get(k)))   flag=0;
+        for (int z=0; z<colnames.length; z++) {
+            for (int k = 0; k < dataBase.get(colnames[z]).size(); k++) {
+                List<List<Value>> list = new ArrayList<>(var.map.keySet());
+                List<Value> listed=new ArrayList<>();
+                if(!list.isEmpty() && list.get(0).size()>z) {
+                    for (List <Value> j : list) {
+                            listed.add(j.get(z));
+                    }
                 }
-                if (flag==1){
-                    ret=this.emptyDataFrame();
-                    var.map.put(dataBase.get(colnames[0]).get(k), ret);
+                if (list.isEmpty() || list.size()<=z) {
+                    List<Value> help=new ArrayList<>();
+                    help.add(dataBase.get(colnames[z]).get(k));
+                    var.map.put(help, ret);
                 }
-                flag=1;
-            }
-            for (Map.Entry<Value, DataFrame> entry : var.map.entrySet()) {
-                if (entry.getKey().eq(dataBase.get(colnames[0]).get(k))){
-                    entry.getValue().addRow(this.iloc(k));
+                else {
+                    for (int i = 0; i < listed.size(); i++) {
+                        if (list.get(i).get(z).eq(dataBase.get(colnames[z]).get(k))) {
+                            flag = 0;
+                        }
+                    }
+                    if (flag == 1) {
+                        ret = this.emptyDataFrame();
+                        List<Value> help=new ArrayList<>();
+                        help.add(dataBase.get(colnames[z]).get(k));
+                        var.map.put(help, ret);
+                    }
+                    flag = 1;
+                }
+                for (Map.Entry<List<Value>, DataFrame> entry : var.map.entrySet()) {
+                    if (entry.getKey().get(z).eq(dataBase.get(colnames[z]).get(k))) {
+                        entry.getValue().addRow(this.iloc(k));
+                    }
                 }
             }
         }
