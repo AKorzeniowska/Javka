@@ -662,6 +662,8 @@ public class DataFrame extends Object {
 
     public DataMap grouped (String [] colnames){
         DataMap var=new DataMap();
+        var.cols=cols;
+        var.classes=classes;
         int flag=1;
         int counter=0;
 
@@ -692,14 +694,6 @@ public class DataFrame extends Object {
             }
             flag=1;
         }
-        System.out.println(var.map.keySet());
-        for (int z=0; z<colnames.length; z++) {
-            for (int k = 0; k < dataBase.get(colnames[z]).size(); k++) {
-                this.dataBase.get(colnames[z]).get(k);
-            }
-        }
-
-
         return var;
     }
 }

@@ -11,6 +11,8 @@ public class StringValue extends Value {
 
     public StringValue create (String a){
         StringValue x=new StringValue();
+        if (a.contains("-"))
+            a="a";
         x.value=a;
         return x;
     }
@@ -85,6 +87,12 @@ public class StringValue extends Value {
         }
         if (value.length()<(((StringValue)a).value).length())
             return true;
+        for (int i=0; i<((StringValue)a).value.length(); i++){
+            int z=(int)((StringValue)a).value.charAt(i);
+            int y=(int)value.charAt(i);
+            if (z>y)
+                return true;
+        }
         return false;
     }
 
@@ -95,7 +103,14 @@ public class StringValue extends Value {
         }
         if (value.length()>(((StringValue)a).value).length())
             return true;
-        return false;}
+        for (int i=0; i<((StringValue)a).value.length(); i++){
+            int z=(int)((StringValue)a).value.charAt(i);
+            int y=(int)value.charAt(i);
+            if (z<y)
+                return true;
+        }
+        return false;
+    }
 
     public boolean neq(Value a) {
         if (!a.getClass().isInstance(this)){
