@@ -114,6 +114,10 @@ public class DateTimeValue extends Value {
     }
 
     public boolean equals(Object other) {
+        if (!other.getClass().isInstance(this))
+            return false;
+        if (value.equals(((DateTimeValue)other).value))
+            return true;
         return false;
     }
 

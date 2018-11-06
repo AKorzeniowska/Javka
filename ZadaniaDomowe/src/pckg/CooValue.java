@@ -171,6 +171,13 @@ public class CooValue extends Value{
     }
 
     public boolean equals(Object other) {
+        if (!other.getClass().isInstance(this)){
+            return false;
+        }
+        if (!((CooValue)other).pair.getKey().getClass().isInstance(pair.getKey()) || !((CooValue)other).pair.getValue().getClass().isInstance(pair.getValue()))
+            return false;
+        if (pair.getKey()==((CooValue)other).pair.getKey() && pair.getValue().eq(((CooValue)other).pair.getValue()))
+            return true;
         return false;
     }
 

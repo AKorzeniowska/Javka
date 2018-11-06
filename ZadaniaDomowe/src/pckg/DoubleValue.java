@@ -108,6 +108,10 @@ public class DoubleValue extends Value {
     }
 
     public boolean equals(Object other) {
+        if (!other.getClass().isInstance(this))
+            return false;
+        if (value==((DoubleValue)other).value)
+            return true;
         return false;
     }
 

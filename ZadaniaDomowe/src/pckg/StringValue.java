@@ -123,6 +123,10 @@ public class StringValue extends Value {
     }
 
     public boolean equals(Object other) {
+        if (!other.getClass().isInstance(this))
+            return false;
+        if (value.equals(((StringValue)other).value))
+            return true;
         return false;
     }
 
