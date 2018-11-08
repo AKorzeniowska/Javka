@@ -182,6 +182,6 @@ public class CooValue extends Value{
     }
 
     public int hashCode() {
-        return 0;
+        return pair.hashCode();
     }
 }

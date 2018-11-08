@@ -124,6 +124,6 @@ public class IntegerValue extends Value {
     }
 
     public int hashCode() {
-        return 0;
+        return value.hashCode();
     }
 }

@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 
 @SuppressWarnings("Duplicates")
 
-public class DataFrame extends Object {
+public class DataFrame {
     Map<String, ArrayList<Value>> dataBase = new HashMap<>();
     List<Class<? extends Value>> classes = new ArrayList<>();
     List<String> cols = new ArrayList<>();
@@ -81,12 +81,32 @@ public class DataFrame extends Object {
             dataBase.put(colsInput[i], helped);
         }
 
+        Method[] methods=new Method[separated.length];
+        Object[] objects=new Object[separated.length];
+        strLine = br.readLine();
+        separated = strLine.split(",");
+        for (int i = 0; i < separated.length; i++) {
+            try {
+                Method getInstance = typesInput[i].getMethod("getInstance");
+                Object instancja = getInstance.invoke(null);
+                Method method = typesInput[i].getMethod("create", String.class);
+                methods[i] = method;
+                objects[i]=instancja;
+                fixed[i] = (Value) method.invoke(instancja, separated[i]);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+        addElement(fixed);
+
         //while ((strLine = br.readLine()) != null) {
-        for (int j = 0; j < 500000; j++) {
+        for (int j = 0; j < 600000; j++) {
             strLine = br.readLine();
             separated = strLine.split(",");
             for (int k = 0; k < separated.length; k++) {
-                try {
+                /*try {
                     Method getInstance = typesInput[k].getMethod("getInstance");
                     Object instancja = getInstance.invoke(null);
                     Method method = typesInput[k].getMethod("create", String.class);
@@ -95,8 +115,8 @@ public class DataFrame extends Object {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
-                }
-
+                }*/
+                fixed[k]=(Value) methods[k].invoke(objects[k], separated[k]);
             }
             addElement(fixed);
         }
@@ -304,6 +324,33 @@ public class DataFrame extends Object {
         return this;
     }
 
+
+    /**
+     * Creates new Value object; its class is the same as given get Value object
+     * new Value object is created according to given String value
+     * function checks for NoSuchMethodException, IllegalAccessException, InvocationTargetException
+     *
+     * @param value String value of value that new Value object will contain
+     * @param get   Value object; its class will be passed while creating new Value
+     * @return new Value object with the same class as get Value object
+     */
+    public Value creator(String value, Value get) {
+        Value x = null;
+        try {
+            Method getInstance = get.getClass().getMethod("getInstance");
+            Object instancja = getInstance.invoke(null);
+            Method method = get.getClass().getMethod("create", String.class);
+            x = (Value) method.invoke(instancja, value);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return x;
+    }
+
     /**
      * Returns a String representation of DataFrame object
      *
@@ -368,32 +415,6 @@ public class DataFrame extends Object {
                 toString += entry.getKey().toString() + " : " + entry.getValue().toString() + "\n";
             }
             return toString;
-        }
-
-        /**
-         * Creates new Value object; its class is the same as given get Value object
-         * new Value object is created according to given String value
-         * function checks for NoSuchMethodException, IllegalAccessException, InvocationTargetException
-         *
-         * @param value String value of value that new Value object will contain
-         * @param get   Value object; its class will be passed while creating new Value
-         * @return new Value object with the same class as get Value object
-         */
-        public Value creator(String value, Value get) {
-            Value x = null;
-            try {
-                Method getInstance = get.getClass().getMethod("getInstance");
-                Object instancja = getInstance.invoke(null);
-                Method method = get.getClass().getMethod("create", String.class);
-                x = (Value) method.invoke(instancja, value);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-            return x;
         }
 
         /**
