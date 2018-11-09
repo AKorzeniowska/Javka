@@ -1,7 +1,7 @@
 package pckg;
 
 public class FloatValue extends Value {
-    public float value;
+    public Float value;
 
     public FloatValue () {}
 
@@ -119,6 +119,6 @@ public class FloatValue extends Value {
     }
 
     public int hashCode() {
-        return 0;
+        return value.hashCode();
     }
 }

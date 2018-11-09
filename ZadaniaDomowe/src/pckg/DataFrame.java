@@ -1,7 +1,7 @@
 package pckg;
 
-import javax.xml.crypto.Data;
 import java.io.*;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.lang.reflect.Method;
@@ -51,15 +51,16 @@ public class DataFrame {
      * @param typesInput String Array of types that each column will keep
      * @throws IOException
      */
-    public DataFrame(String address, Class<? extends Value>[] typesInput) throws IOException, InvocationTargetException, IllegalAccessException {
+    public DataFrame(String address, Class<? extends Value>[] typesInput) throws IOException{
 
-        FileInputStream fstream;
+        FileInputStream fstream=null;
         BufferedReader br;
-        fstream = new FileInputStream(address);
-        if (fstream == null)
-            throw new IOException("File not found!");
-        else
-            br = new BufferedReader(new InputStreamReader(fstream));
+        try {
+            fstream = new FileInputStream(address);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        br = new BufferedReader(new InputStreamReader(fstream));
 
         String strLine;
         String[] separated;
@@ -81,19 +82,18 @@ public class DataFrame {
             dataBase.put(colsInput[i], helped);
         }
 
-        Method[] methods=new Method[separated.length];
-        Object[] objects=new Object[separated.length];
+        Constructor[] methods=new Constructor[separated.length];
         strLine = br.readLine();
         separated = strLine.split(",");
         for (int i = 0; i < separated.length; i++) {
             try {
-                Method getInstance = typesInput[i].getMethod("getInstance");
-                Object instancja = getInstance.invoke(null);
-                Method method = typesInput[i].getMethod("create", String.class);
-                methods[i] = method;
-                objects[i]=instancja;
-                fixed[i] = (Value) method.invoke(instancja, separated[i]);
+                methods[i] = classes.get(i).getConstructor(String.class);
+                fixed[i] = (Value) methods[i].newInstance(separated[i]);
             } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
@@ -101,25 +101,24 @@ public class DataFrame {
         }
         addElement(fixed);
 
-        //while ((strLine = br.readLine()) != null) {
-        for (int j = 0; j < 600000; j++) {
-            strLine = br.readLine();
+        while ((strLine = br.readLine()) != null) {
+        //for (int j = 0; j < 25000; j++) {
+        //    strLine = br.readLine();
             separated = strLine.split(",");
             for (int k = 0; k < separated.length; k++) {
-                /*try {
-                    Method getInstance = typesInput[k].getMethod("getInstance");
-                    Object instancja = getInstance.invoke(null);
-                    Method method = typesInput[k].getMethod("create", String.class);
-                    fixed[k] = (Value) method.invoke(instancja, separated[k]);
-                } catch (NoSuchMethodException e) {
+                try {
+                    fixed[k]=(Value) methods[k].newInstance(separated[k]);
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
-                }*/
-                fixed[k]=(Value) methods[k].invoke(objects[k], separated[k]);
+                }
             }
             addElement(fixed);
         }
+
         br.close();
     }
 

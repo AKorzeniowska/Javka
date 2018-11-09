@@ -18,6 +18,15 @@ public class DateTimeValue extends Value {
         }
     }
 
+    public DateTimeValue (String a){
+        value=new Date();
+        try{
+            value=form.parse(a);
+        } catch (ParseException e){
+            System.out.println("Unparseable using " + form);
+        }
+    }
+
     public static DateTimeValue getInstance(){
         return new DateTimeValue();
     }

@@ -8,14 +8,15 @@ import java.util.HashMap;
 public class Main {
     public static void main(String[] args) throws IOException, InvocationTargetException, IllegalAccessException {
         DataFrame najnowszy=new DataFrame("groupby.csv",new Class[] {StringValue.class, DateTimeValue.class, DoubleValue.class, DoubleValue.class});
-        DataFrame.DataMap n=najnowszy.groupby(new String[] {"id"});
-//        System.out.println(n);
-        System.out.println(n.max());
-        System.out.println(n.min());
-        System.out.println(n.sum());
-        System.out.println(n.mean());
-        System.out.println(n.var());
-        System.out.println(n.std());
+//        DataFrame.DataMap n=najnowszy.groupby(new String[] {"id"});
+//        System.out.println(n.max());
+//        System.out.println(n.min());
+//        System.out.println(n.sum());
+//        System.out.println(n.mean());
+//        System.out.println(n.var());
+//        System.out.println(n.std());
+
+
 
 //        DataFrame roboczy=new DataFrame(new String[] {"id", "id2", "kol1", "kol2", "kol3"}, new Class[] {StringValue.class, StringValue.class, IntegerValue.class, IntegerValue.class, IntegerValue.class});
 //        roboczy.addElement(new Value[] {new StringValue("a"),new StringValue( "x"), new IntegerValue(1), new IntegerValue(7),new IntegerValue( 13)});

@@ -1,9 +1,13 @@
 package pckg;
 
 public class DoubleValue extends Value {
-    public double value;
+    public Double value;
 
     public DoubleValue () {}
+
+    public DoubleValue (String a){
+        value=Double.parseDouble(a);
+    }
 
     public static DoubleValue getInstance(){
         return new DoubleValue();
@@ -116,6 +120,6 @@ public class DoubleValue extends Value {
     }
 
     public int hashCode() {
-        return 0;
+        return value.hashCode();
     }
 }
