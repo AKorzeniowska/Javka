@@ -1,49 +1,52 @@
 package pckg;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.io.*;
+import java.util.HashMap;
 
 public class Main {
-    public static void main(String[] args) throws IOException{
-        DataFrame data=new DataFrame(new String[]{"Integer", "Double"}, new String[]{"kol1", "kol2"});
-        ArrayList<Object> array=data.get("kol1");
-        data.addElement(new Object[]{5,6.13});
-        data.addElement(new Object[]{7,9.14});
-        DataFrame df = data.get(new String[]{"kol2"}, false);
-        DataFrame copy = data.get(new String[]{"kol2"}, true);
-//        System.out.println(data);
-//        System.out.println(df);
-//        System.out.println(copy);
-//        data.addElement(2,3.3);
-//        System.out.println(data);
-//        System.out.println(df);
-//        System.out.println(copy);
-//        DataFrame row= data.iloc(1);
-//        System.out.println(row);
-//        row=data.iloc(0,1);
-//        System.out.println(row);
-//        System.out.println(array);
-//        System.out.println(data.size());
+    public static void main(String[] args) throws IOException, InvocationTargetException, IllegalAccessException {
+        DataFrame najnowszy=new DataFrame("groupby.csv",new Class[] {StringValue.class, DateTimeValue.class, DoubleValue.class, DoubleValue.class});
+//        DataFrame.DataMap n=najnowszy.groupby(new String[] {"id"});
+//        System.out.println(n.max());
+//        System.out.println(n.min());
+//        System.out.println(n.sum());
+//        System.out.println(n.mean());
+//        System.out.println(n.var());
+//        System.out.println(n.std());
 
-//        DataFrame datas=new DataFrame(new String[]{"Integer", "Integer"}, new String[]{"kol1", "kol2"});
-//        datas.addElement(new Integer[]{1,0});
-//        datas.addElement(new Integer[]{0,4});
-//        SparseDataFrame sdf=new SparseDataFrame(datas,"0");
-//        System.out.println(sdf);
-//        System.out.println(sdf.toDense());
-        DataFrame read=new DataFrame("sparse.csv", new String[] {"Double", "Double", "Double"});
-        System.out.println(read);
-        SparseDataFrame reader=new SparseDataFrame(read, "0.0");
-        System.out.println(reader);
-        System.out.println(reader.toDense());
 
-        SparseDataFrame readerer= new SparseDataFrame("sparse.csv", "0.0", new String[] {"Double", "Double", "Double"});
-        System.out.println(readerer);
 
-//        sdf.addElement(new Integer[]{5,0});
-//        sdf.addElement(new Integer[]{2,0});
-//        System.out.println(sdf);
-//        DataFrame reading=new DataFrame("data.csv", new String[] {"Double", "Double", "Double"}, new String[] {"kol1", "kol2", "kol3"});
-//        System.out.println(reading);
+//        DataFrame roboczy=new DataFrame(new String[] {"id", "id2", "kol1", "kol2", "kol3"}, new Class[] {StringValue.class, StringValue.class, IntegerValue.class, IntegerValue.class, IntegerValue.class});
+//        roboczy.addElement(new Value[] {new StringValue("a"),new StringValue( "x"), new IntegerValue(1), new IntegerValue(7),new IntegerValue( 13)});
+//        roboczy.addElement(new Value[] {new StringValue("b"),new StringValue( "y"), new IntegerValue(2), new IntegerValue(8),new IntegerValue( 14)});
+//        roboczy.addElement(new Value[] {new StringValue("a"),new StringValue( "y"), new IntegerValue(3), new IntegerValue(9),new IntegerValue( 15)});
+//        roboczy.addElement(new Value[] {new StringValue("b"),new StringValue( "y"), new IntegerValue(4), new IntegerValue(10),new IntegerValue( 16)});
+//        roboczy.addElement(new Value[] {new StringValue("a"),new StringValue( "x"), new IntegerValue(5), new IntegerValue(11),new IntegerValue( 17)});
+//        roboczy.addElement(new Value[] {new StringValue("b"),new StringValue( "x"), new IntegerValue(6), new IntegerValue(12),new IntegerValue( 18)});
+//        DataFrame.DataMap groupby=roboczy.groupby(new String[] {"id", "id2"});
+//        System.out.println(groupby);
+
+
+//        DateTimeValue a=new DateTimeValue();
+//        a.create("11-11-2018 03:10:10");
+//        try {
+//            DataFrame read=new DataFrame("data.csv", new Class [] {DoubleValue.class, DoubleValue.class, DoubleValue.class});
+//            System.out.println(read);
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            SparseDataFrame read=new SparseDataFrame("sparse.csv", "0.0",new Class [] {DoubleValue.class, DoubleValue.class, DoubleValue.class});
+//            System.out.println(read);
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
     }
 }
