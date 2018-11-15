@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class DateTimeValue extends Value {
     Date value;
-    SimpleDateFormat form=new SimpleDateFormat("yyyy-MM-dd");
+    static SimpleDateFormat form=new SimpleDateFormat("yyyy-MM-dd");
 
     public DateTimeValue (){
         String a="0000-00-00";

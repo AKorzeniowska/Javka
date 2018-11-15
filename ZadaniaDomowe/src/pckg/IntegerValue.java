@@ -28,7 +28,6 @@ public class IntegerValue extends Value {
     }
 
     public Value add (Value a){
-        System.out.println(a.getClass()+" "+this.getClass());
         if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;

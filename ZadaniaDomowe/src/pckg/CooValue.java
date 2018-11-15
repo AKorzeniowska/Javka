@@ -95,7 +95,7 @@ public class CooValue extends Value{
         return this;
     }
 
-    public Value div(Value a) {
+    public Value div(Value a) throws DividingByZeroException{
         if (!a.getClass().isInstance(this)){
             System.out.println("Typ niezgodny");
             return null;

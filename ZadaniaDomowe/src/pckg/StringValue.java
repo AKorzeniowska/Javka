@@ -48,7 +48,7 @@ public class StringValue extends Value {
             System.out.println("Typ niezgodny");
             return null;
         }
-        System.out.println("Operacja niemożliwa dla typu String");
+        //System.out.println("Operacja niemożliwa dla typu String");
         return this;
     }
 
