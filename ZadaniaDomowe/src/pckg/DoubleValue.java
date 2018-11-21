@@ -18,9 +18,11 @@ public class DoubleValue extends Value {
         return x;
     }
 
-    public DoubleValue (double a){
+    public DoubleValue (Double a){
         value=a;
     }
+
+
 
     public String toString() {
         return String.valueOf(value);
@@ -31,7 +33,8 @@ public class DoubleValue extends Value {
             System.out.println("Typ niezgodny");
             return null;
         }
-        value=value+((DoubleValue)a).value;
+
+        value+=((DoubleValue)a).value;
         return this;
     }
 
@@ -121,5 +124,10 @@ public class DoubleValue extends Value {
 
     public int hashCode() {
         return value.hashCode();
+    }
+
+    @Override
+    public Object getValue() {
+        return value;
     }
 }

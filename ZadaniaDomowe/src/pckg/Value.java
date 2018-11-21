@@ -14,4 +14,5 @@ public abstract class Value implements Cloneable{
     public abstract boolean neq(Value a);
     public abstract boolean equals(Object other);
     public abstract int hashCode();
+    public abstract Object getValue();
 }

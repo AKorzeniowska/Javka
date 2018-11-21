@@ -125,4 +125,9 @@ public class IntegerValue extends Value {
     public int hashCode() {
         return value.hashCode();
     }
+
+    @Override
+    public Object getValue() {
+        return value;
+    }
 }

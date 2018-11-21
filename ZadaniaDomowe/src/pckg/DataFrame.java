@@ -350,6 +350,13 @@ public class DataFrame {
         return x;
     }
 
+    public Value[] wholeColumn (String a){
+        Value [] output=new Value[this.dataBase.get(a).size()];
+        for (int i=0; i<this.dataBase.get(a).size(); i++)
+            output[i]=this.dataBase.get(a).get(i);
+        return output;
+    }
+
     /**
      * Returns a String representation of DataFrame object
      *
@@ -360,7 +367,14 @@ public class DataFrame {
     public String toString() {
         String toString = new String();
         for (Map.Entry<String, ArrayList<Value>> entry : dataBase.entrySet()) {
-            toString += entry.getKey() + ":" + entry.getValue().toString() + "\n";
+            toString += entry.getKey()+" ";
+        }
+        toString+="\n";
+        for (int z=0; z<dataBase.get(cols.get(0)).size(); z++) {
+            for (String i : cols) {
+                toString+=dataBase.get(i).get(z)+" ";
+            }
+            toString+="\n";
         }
         return toString;
     }
@@ -374,15 +388,20 @@ public class DataFrame {
      *
      * @param input Array of Objects to put in columns
      */
-    public void addElement(Value[] input) {
+    public void addElement (Value[] input) {
         if (input.length != cols.size()) {
             System.out.println("Nieodpowiednia ilość argumentów!");
             return;
         }
         int a = 0;
         for (Value i : input) {
-            if (classes.get(a) != i.getClass()) {
+            try {
+                if (classes.get(a) != i.getClass())
+                    throw new WrongValueTypeException();
+            } catch (WrongValueTypeException e) {
                 System.out.println("typ danych niezgodny z kolumna: " + classes.get(a) + " " + i.getClass());
+                e.columnName=this.cols.get(a);
+                e.rowNumber=this.dataBase.get(cols.get(a)).size();
                 return;
             }
             a++;
@@ -400,7 +419,7 @@ public class DataFrame {
      * The Values in HashMap are smaller DataFrames
      * Implements Groupby interface, that enables finding specific values in smaller DataFrames
      */
-    class DataMap extends DataFrame implements Groupby {
+    public class DataMap extends DataFrame implements Groupby {
         HashMap<List<Value>, DataFrame> map = new HashMap<>();
 
         public DataMap() {
@@ -503,14 +522,14 @@ public class DataFrame {
             List<List<Value>> siup=new ArrayList<>(map.keySet());
             for (Value a : siup.get(0)){
                 if (a.getClass().equals(DateTimeValue.class)) {
-                    nowy = emptyDataFrame();
                     flag = 1;
-                }
-                else {
-                    nowy = emptyWithoutData();
-                    flag = 0;
+                    break;
                 }
             }
+            if (flag==1)
+                nowy=emptyDataFrame();
+            else
+                nowy=emptyWithoutData();
             Value[] input = new Value[nowy.cols.size()];
             Value x = null;
             int counter = 0;
@@ -520,14 +539,14 @@ public class DataFrame {
                     if (!classes.get(k).equals(DateTimeValue.class) || flag==1) {
                         x = creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
                         for (Value z : entry.getValue().dataBase.get(cols.get(k))) {
-                            x = x.add(z);
+                            x.add(z);
                             counter++;
                         }
                         Value count = x.create(String.valueOf(counter));
                         try {
                             if (count.eq(count.create("0")))
                                 throw new DividingByZeroException();
-                            x = x.div(count);
+                            x.div(count);
                         }
                         catch (DividingByZeroException e){
                             System.out.println("Dzielenie przez 0!");
@@ -566,14 +585,14 @@ public class DataFrame {
             List<List<Value>> siup=new ArrayList<>(map.keySet());
             for (Value a : siup.get(0)){
                 if (a.getClass().equals(DateTimeValue.class)) {
-                    nowy = emptyDataFrame();
                     flag = 1;
-                }
-                else {
-                    nowy = emptyWithoutData();
-                    flag = 0;
+                    break;
                 }
             }
+            if (flag==1)
+                nowy=emptyDataFrame();
+            else
+                nowy=emptyWithoutData();
             Value[] input = new Value[nowy.cols.size()];
             Value x = null;
             int counter = 0;
@@ -583,14 +602,14 @@ public class DataFrame {
                     if (!classes.get(k).equals(DateTimeValue.class) || flag==1) {
                         x = creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
                         for (Value z : entry.getValue().dataBase.get(cols.get(k))) {
-                            x = x.add(z);
+                            x.add(z);
                             counter++;
                         }
                         Value count = x.create(String.valueOf(counter));
                         try {
                             if (count.eq(count.create("0")))
                                 throw new DividingByZeroException();
-                            x = x.div(count);
+                            x.div(count);
                         } catch (DividingByZeroException e) {
                             System.out.println("Dzielenie przez 0!");
                         }
@@ -598,16 +617,16 @@ public class DataFrame {
                         for (Value z : entry.getValue().dataBase.get(cols.get(k))) {
                             Value d = z.create(z.toString());
                             Value var = (d.sub(x)).pow(d.create("2"));
-                            sum = sum.add(var);
+                            sum.add(var);
                         }
                         try {
                             if (count.eq(count.create("0")))
                                 throw new DividingByZeroException();
-                            sum = sum.div(count);
+                            sum.div(count);
                         } catch (DividingByZeroException e) {
                             System.out.println("Dzielenie przez 0!");
                         }
-                        sum = sum.pow(sum.create("0.5"));
+                        sum.pow(sum.create("0.5"));
                         if (entry.getKey().size() > iterator)
                             input[iterator] = entry.getKey().get(iterator);
                         else
@@ -639,14 +658,15 @@ public class DataFrame {
             List<List<Value>> siup=new ArrayList<>(map.keySet());
             for (Value a : siup.get(0)){
                 if (a.getClass().equals(DateTimeValue.class)) {
-                    nowy = emptyDataFrame();
                     flag = 1;
-                }
-                else {
-                    nowy = emptyWithoutData();
-                    flag = 0;
+                    break;
                 }
             }
+            if (flag==1)
+                nowy=emptyDataFrame();
+            else
+                nowy=emptyWithoutData();
+
             Value[] input = new Value[nowy.cols.size()];
             Value x = null;
             int iterator = 0;
@@ -655,7 +675,7 @@ public class DataFrame {
                     if (!classes.get(k).equals(DateTimeValue.class) || flag==1) {
                         x = creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
                         for (Value z : entry.getValue().dataBase.get(cols.get(k))) {
-                            x = x.add(z);
+                            x.add(z);
                         }
                         if (entry.getKey().size() > iterator)
                             input[iterator] = entry.getKey().get(iterator);
@@ -690,14 +710,14 @@ public class DataFrame {
             List<List<Value>> siup=new ArrayList<>(map.keySet());
             for (Value a : siup.get(0)){
                 if (a.getClass().equals(DateTimeValue.class)) {
-                    nowszy = emptyDataFrame();
                     flag = 1;
-                }
-                else {
-                    nowszy = emptyWithoutData();
-                    flag = 0;
+                    break;
                 }
             }
+            if (flag==1)
+                nowszy=emptyDataFrame();
+            else
+                nowszy=emptyWithoutData();
             Value[] input = new Value[nowszy.cols.size()];
             Value x = null;
             int counter = 0;
@@ -707,16 +727,17 @@ public class DataFrame {
                     if (!classes.get(k).equals(DateTimeValue.class) || flag==1) {
                         x = creator("0", entry.getValue().dataBase.get(cols.get(k)).get(0));
                         for (Value z : entry.getValue().dataBase.get(cols.get(k))) {
-                            x = x.add(z);
+                            x.add(z);
                             counter++;
                         }
                         Value count = x.create(String.valueOf(counter));
                         try {
                             if (count.eq(count.create("0")))
                                 throw new DividingByZeroException();
-                            x = x.div(count);
+                            x.div(count);
                         } catch (DividingByZeroException e) {
                             System.out.println("Dzielenie przez 0!");
+                            return null;
                         }
                         Value sum = x.create(String.valueOf("0"));
                         for (Value z : entry.getValue().dataBase.get(cols.get(k))) {
@@ -727,9 +748,10 @@ public class DataFrame {
                         try {
                             if (count.eq(count.create("0")))
                                 throw new DividingByZeroException();
-                            sum = sum.div(count);
+                            sum.div(count);
                         } catch (DividingByZeroException e) {
                             System.out.println("Dzielenie przez 0!");
+                            return null;
                         }
                         if (entry.getKey().size() > iterator)
                             input[iterator] = entry.getKey().get(iterator);
@@ -818,7 +840,8 @@ public class DataFrame {
                             throw new DividingByZeroException();
                         x.div(a);
                     } catch (DividingByZeroException e) {
-                        System.out.println("Dzielenie prezz 0!");
+                        System.out.println("Dzielenie przez 0!");
+                        return null;
                     }
                 }
             }
@@ -893,11 +916,20 @@ public class DataFrame {
                             throw new DividingByZeroException();
                         dataBase.get(colnames[i]).get(z).div(column.get(z));
                     } catch (DividingByZeroException e) {
-                        System.out.println("Dzielenie przez 0!");
+                        System.out.println("Dzielenie przez 0! \nBłąd w rzędzie nr "+(z+1));
+                        e.rowNumber=z;
                     }
                 }
             }
         }
         return this;
+    }
+
+    public List<String> getCols (){
+        return this.cols;
+    }
+
+    public List<Class<? extends Value>> getClasses(){
+        return this.classes;
     }
 }

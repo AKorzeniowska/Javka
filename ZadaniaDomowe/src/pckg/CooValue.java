@@ -184,4 +184,9 @@ public class CooValue extends Value{
     public int hashCode() {
         return pair.hashCode();
     }
+
+    @Override
+    public Object getValue() {
+        return pair;
+    }
 }
