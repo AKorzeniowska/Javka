@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <AnchorPane prefHeight="391.0" prefWidth="379.0">
+         <children>
+            <Button fx:id="nazwa" layoutX="65.0" layoutY="14.0" mnemonicParsing="false" onAction="#wczytywanko" prefHeight="32.0" prefWidth="250.0" text="Kliknij, aby wybrać pliczek" />
+            <Label fx:id="okienkoWyników" alignment="CENTER" contentDisplay="TOP" layoutX="18.0" layoutY="202.0" prefHeight="164.0" prefWidth="344.0" textAlignment="CENTER">
+               <font>
+                  <Font name="FontAwesome" size="10.0" />
+               </font>
+            </Label>
+            <Label fx:id="adresPliczku" alignment="CENTER" layoutX="13.0" layoutY="46.0" prefHeight="16.0" prefWidth="355.0">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Button fx:id="countMin" layoutX="164.0" layoutY="102.0" mnemonicParsing="false" onAction="#countingMin" text="min()" />
+            <Button fx:id="countMax" layoutX="75.0" layoutY="102.0" mnemonicParsing="false" onAction="#countingMax" text="max()" />
+            <Button fx:id="countSum" layoutX="255.0" layoutY="102.0" mnemonicParsing="false" onAction="#countingSum" text="sum()" />
+            <Button fx:id="countMean" layoutX="70.0" layoutY="140.0" mnemonicParsing="false" onAction="#countingMean" text="mean()" />
+            <Button fx:id="countVar" layoutX="166.0" layoutY="140.0" mnemonicParsing="false" onAction="#countingVar" text="var()" />
+            <Button fx:id="countStd" layoutX="258.0" layoutY="140.0" mnemonicParsing="false" onAction="#countingStd" text="std()" />
+            <Button fx:id="doChart" layoutX="70.0" layoutY="176.0" mnemonicParsing="false" onAction="#doingChart" text="Create chart" />
+            <TextField fx:id="putColnames" layoutX="181.0" layoutY="176.0" prefHeight="26.0" prefWidth="129.0" />
+            <TextField fx:id="putGroupby" layoutX="104.0" layoutY="69.0" />
+         </children></AnchorPane>
+   </children>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+</GridPane>
