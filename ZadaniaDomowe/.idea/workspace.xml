@@ -7,18 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be6de65a-7dd4-4845-9381-6203bb4d7702" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../App/src/sample/Chart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/src/sample/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/../App/src/sample/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../App/src/sample/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ZadaniaDomowe.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ZadaniaDomowe.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pckg/CooValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/CooValue.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pckg/DataFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/DataFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pckg/DateTimeValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/DateTimeValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pckg/DividingByZeroException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/DividingByZeroException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pckg/DoubleValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/DoubleValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pckg/FloatValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/FloatValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pckg/IntegerValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/IntegerValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pckg/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pckg/StringValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/StringValue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pckg/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/Value.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -46,14 +39,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pckg/DataFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="143">
-              <caret line="914" column="29" selection-start-line="914" selection-start-column="29" selection-end-line="914" selection-end-column="29" />
+            <state relative-caret-position="353">
+              <caret line="955" column="43" selection-start-line="955" selection-start-column="34" selection-end-line="955" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#36333#36334#0" expanded="true" />
-                <element signature="e#36365#36366#0" expanded="true" />
-                <element signature="e#36429#36430#0" expanded="true" />
-                <element signature="e#36449#36450#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -132,7 +121,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>empty</find>
       <find>emptydat</find>
       <find>grou</find>
       <find>&lt; 5</find>
@@ -162,6 +150,7 @@
       <find>datamap(</find>
       <find>tostring()</find>
       <find>toString</find>
+      <find>maxinco</find>
     </findStrings>
     <replaceStrings>
       <replace>pair</replace>
@@ -210,7 +199,6 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -233,6 +221,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -348,11 +337,12 @@
       <workItem from="1542748553103" duration="599000" />
       <workItem from="1542751952768" duration="1080000" />
       <workItem from="1542836867174" duration="1353000" />
+      <workItem from="1543516222366" duration="2019000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="201533000" />
+    <option name="totallyTimeSpent" value="203552000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -365,6 +355,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="1" />
@@ -372,8 +363,7 @@
       <window_info id="UI Designer" order="3" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="6" visible="true" weight="0.2601756" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info active="true" content_ui="combo" id="Project" order="6" visible="true" weight="0.264166" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.29690048" />
@@ -386,7 +376,7 @@
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="10" weight="0.3295082" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.10440457" />
-      <window_info anchor="right" id="Maven" />
+      <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="1" weight="0.25" />
       <window_info anchor="right" id="Palette" order="2" />
@@ -396,6 +386,7 @@
       <window_info anchor="right" id="Ant Build" order="6" weight="0.24980047" />
       <window_info anchor="right" id="Database" order="7" weight="0.32960895" />
       <window_info anchor="right" id="Maven Projects" order="8" weight="0.32980332" />
+      <window_info anchor="right" id="Maven" order="9" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -561,12 +552,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pckg/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/pckg/StringValue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="19" column="45" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
+        <state relative-caret-position="1575">
+          <caret line="111" column="9" selection-start-line="111" selection-start-column="9" selection-end-line="111" selection-end-column="9" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#3641#3642#0" expanded="true" />
+            <element signature="e#3669#3670#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -592,27 +584,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pckg/StringValue.java">
+    <entry file="file://$PROJECT_DIR$/src/pckg/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1575">
-          <caret line="111" column="9" selection-start-line="111" selection-start-column="9" selection-end-line="111" selection-end-column="9" />
+        <state relative-caret-position="225">
+          <caret line="19" column="45" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
           <folding>
-            <element signature="e#3641#3642#0" expanded="true" />
-            <element signature="e#3669#3670#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pckg/DataFrame.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="143">
-          <caret line="914" column="29" selection-start-line="914" selection-start-column="29" selection-end-line="914" selection-end-column="29" />
+        <state relative-caret-position="353">
+          <caret line="955" column="43" selection-start-line="955" selection-start-column="34" selection-end-line="955" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#36333#36334#0" expanded="true" />
-            <element signature="e#36365#36366#0" expanded="true" />
-            <element signature="e#36429#36430#0" expanded="true" />
-            <element signature="e#36449#36450#0" expanded="true" />
           </folding>
         </state>
       </provider>

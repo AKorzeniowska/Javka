@@ -223,6 +223,26 @@ public class DataFrame {
         return nowy;
     }
 
+    public Value minInCol (String a){
+        List<Value> list=this.get(a);
+        Value x = creator("100000", list.get(0));
+        for (Value z : list){
+            if (z.lte(x))
+                x=z;
+        }
+        return x;
+    }
+
+    public Value maxInCol (String a){
+        List<Value> list=this.get(a);
+        Value x = creator("-100000", list.get(0));
+        for (Value z : list){
+            if (z.gte(x))
+                x=z;
+        }
+        return x;
+    }
+
     /**
      * Creates copy of indicated columns from DataFrame object
      * Depending on copy boolean, creates deep or shallow copy
@@ -366,8 +386,8 @@ public class DataFrame {
     @Override
     public String toString() {
         String toString = new String();
-        for (Map.Entry<String, ArrayList<Value>> entry : dataBase.entrySet()) {
-            toString += entry.getKey()+" ";
+        for (String a : cols) {
+            toString += a+" ";
         }
         toString+="\n";
         for (int z=0; z<dataBase.get(cols.get(0)).size(); z++) {
@@ -931,5 +951,10 @@ public class DataFrame {
 
     public List<Class<? extends Value>> getClasses(){
         return this.classes;
+    }
+
+    public Class<? extends Value> getClassOfCol (String a){
+        int z=cols.indexOf(a);
+        return classes.get(z);
     }
 }

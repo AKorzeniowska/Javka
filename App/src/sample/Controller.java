@@ -2,12 +2,12 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,7 +16,8 @@ import javafx.stage.Stage;
 import pckg.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+
+@SuppressWarnings("Duplicates")
 
 public class Controller {
     public Button nazwa;
@@ -29,13 +30,13 @@ public class Controller {
     public Button countVar;
     public Button countStd;
     public Button doChart;
-    final NumberAxis xAxis=new NumberAxis();
-    final NumberAxis yAxis=new NumberAxis();
-    final LineChart<Number, Number> chart=new LineChart<Number, Number>(xAxis,yAxis);
+
     public TextField putColnames;
     public TextField putGroupby;
     File file=null;
-    DataFrame input;
+    DataFrame input=null;
+    DataFrame counted=null;
+
 
     public void wczytywanko(ActionEvent actionEvent) throws IOException {
         final FileChooser fileChooser = new FileChooser();
@@ -51,11 +52,11 @@ public class Controller {
     public DataFrame inputStraight (){
         DataFrame x= null;
         try {
-            x = new DataFrame(file.getPath(), new Class[] {StringValue.class, DateTimeValue.class, DoubleValue.class, DoubleValue.class});
+            input = new DataFrame(file.getPath(), new Class[] {StringValue.class, DateTimeValue.class, DoubleValue.class, DoubleValue.class});
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return x;
+        return input;
     }
     public DataFrame.DataMap input(){
         try {
@@ -78,76 +79,45 @@ public class Controller {
         return null;
     }
 
-    public void countingMin(ActionEvent actionEvent) {
-        if (input()==null)
-            return;
+    public void functionUni(DataFrame a){
         try {
             if (input==null)
                 throw new NoChosenFileException();
-            okienkoWyników.setText(input().min().toString());
+            okienkoWyników.setText(a.toString());
+            counted=a;
         } catch (NoChosenFileException e){
             e.alert();
         }
+    }
+
+    public void countingMin(ActionEvent actionEvent) {
+        if (input()!=null)
+            functionUni(input().min());
     }
 
     public void countingMax(ActionEvent actionEvent) {
-        if (input()==null)
-            return;
-        try {
-            if (input==null)
-                throw new NoChosenFileException();
-            okienkoWyników.setText(input().max().toString());
-        } catch (NoChosenFileException e){
-            e.alert();
-        }
+        if (input()!=null)
+            functionUni(input().max());
     }
 
     public void countingSum(ActionEvent actionEvent) {
-        if (input()==null)
-            return;
-        try {
-            if (input==null)
-                throw new NoChosenFileException();
-            okienkoWyników.setText(input().sum().toString());
-        } catch (NoChosenFileException e){
-            e.alert();
-        }
+        if (input()!=null)
+            functionUni(input().sum());
     }
 
     public void countingMean(ActionEvent actionEvent) {
-        if (input()==null)
-            return;
-        try {
-            if (input==null)
-                throw new NoChosenFileException();
-            okienkoWyników.setText(input().mean().toString());
-        } catch (NoChosenFileException e){
-            e.alert();
-        }
+        if (input()!=null)
+            functionUni(input().mean());
     }
 
     public void countingStd(ActionEvent actionEvent) {
-        if (input()==null)
-            return;
-        try {
-            if (input==null)
-                throw new NoChosenFileException();
-            okienkoWyników.setText(input().std().toString());
-        } catch (NoChosenFileException e){
-            e.alert();
-        }
+        if (input()!=null)
+            functionUni(input().std());
     }
 
     public void countingVar(ActionEvent actionEvent) {
-        if (input()==null)
-            return;
-        try {
-            if (input==null)
-                throw new NoChosenFileException();
-            okienkoWyników.setText(input().var().toString());
-        } catch (NoChosenFileException e){
-            e.alert();
-        }
+        if (input()!=null)
+            functionUni(input().var());
     }
 
 
@@ -164,21 +134,47 @@ public class Controller {
                 String[] data = text.split(", ");
                 if (data.length!=2)
                     throw new WrongColumnsNumberException();
-                if (!input.getCols().contains(data[0]) || !input.getCols().contains(data[1]))
+                if (!counted.getCols().contains(data[0]) || !counted.getCols().contains(data[1]))
                     throw new WrongColumnsNamesException();
-                Value[] axisX = input.wholeColumn(data[0]);
-                Value[] axisY = input.wholeColumn(data[1]);
-                xAxis.setLabel(data[0]);
+
+                final CategoryAxis xAxisString = new CategoryAxis();
+                final NumberAxis xAxisNumber = new NumberAxis();
+                final NumberAxis yAxis = new NumberAxis();
+                final LineChart<?,?> chart;
+
+                Value[] axisX = counted.wholeColumn(data[0]);
+                Value[] axisY = counted.wholeColumn(data[1]);
                 yAxis.setLabel(data[1]);
-                for (int i = 0; i < 100; i++) {
-                    series.getData().add(new XYChart.Data<>(axisX[i].getValue(), axisY[i].getValue()));
+
+                if (counted.getClassOfCol(data[0]).equals(DateTimeValue.class) || counted.getClassOfCol(data[0]).equals(StringValue.class)) {
+                    chart=new LineChart<String, Number>(xAxisString, yAxis);
+                    xAxisString.setLabel(data[0]);
+                    for (int i = 0; i<axisX.length; i++) {
+                        series.getData().add(new XYChart.Data<>(axisX[i].getValue().toString(), axisY[i].getValue()));
+                    }
                 }
+                else{
+                    chart=new LineChart<Number, Number>(xAxisNumber, yAxis);
+                    xAxisNumber.setLabel(data[0]);
+                    for (int i = 0; i<axisX.length; i++) {
+                        series.getData().add(new XYChart.Data<>(axisX[i].getValue(), axisY[i].getValue()));
+                    }
+                }
+
+
+//                yAxis.setAutoRanging(false);
+//                yAxis.setUpperBound((double)counted.maxInCol(data[1]).getValue()+1);
+//                yAxis.setLowerBound((double)counted.maxInCol(data[1]).getValue()-1);
+
+
+
                 Scene scene = new Scene(chart, 380, 400);
                 chart.getData().add(series);
 
                 Stage stage = (Stage) nazwa.getScene().getWindow();
                 stage.setScene(scene);
                 stage.show();
+
             } catch (NoColumnsNamesException e){
                 e.noInputAlert();
             } catch (WrongColumnsNumberException e){
@@ -191,6 +187,4 @@ public class Controller {
         }
     }
 
-    public void puttingColnames(ActionEvent actionEvent) {
-    }
 }
