@@ -353,12 +353,29 @@ public class DataFrame {
      * @param get   Value object; its class will be passed while creating new Value
      * @return new Value object with the same class as get Value object
      */
-    public Value creator(String value, Value get) {
+    public static Value creator(String value, Value get) {
         Value x = null;
         try {
             Method getInstance = get.getClass().getMethod("getInstance");
             Object instancja = getInstance.invoke(null);
             Method method = get.getClass().getMethod("create", String.class);
+            x = (Value) method.invoke(instancja, value);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return x;
+    }
+
+    public static Value creatorFromClass(String value, Class<? extends Value> get) {
+        Value x = null;
+        try {
+            Method getInstance = get.getMethod("getInstance");
+            Object instancja = getInstance.invoke(null);
+            Method method = get.getMethod("create", String.class);
             x = (Value) method.invoke(instancja, value);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -444,6 +461,10 @@ public class DataFrame {
 
         public DataMap() {
             map.clear();
+        }
+
+        public void addFrame (List<Value> keys, DataFrame add){
+            this.map.put(keys, add);
         }
 
         @Override
@@ -956,5 +977,19 @@ public class DataFrame {
     public Class<? extends Value> getClassOfCol (String a){
         int z=cols.indexOf(a);
         return classes.get(z);
+    }
+
+    public int numberOfRows(){
+        if (cols.isEmpty())
+            return 0;
+        return dataBase.get(cols.get(0)).size();
+    }
+
+    public ArrayList<Value> getRow (int i){
+        ArrayList <Value> output=new ArrayList<>();
+        for (String col : cols){
+            output.add(dataBase.get(col).get(i));
+        }
+        return output;
     }
 }

@@ -7,11 +7,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="be6de65a-7dd4-4845-9381-6203bb4d7702" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../App/src/sample/Chart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../App/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/out/production/App/sample/chart.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/out/production/App/sample/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../App/out/production/App/sample/sample.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/src/sample/Chart.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../App/src/sample/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/../App/src/sample/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../App/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../App/src/sample/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/src/sample/chart.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../App/src/sample/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../App/src/sample/sample.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pckg/DataFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/DataFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pckg/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pckg/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -39,10 +45,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pckg/DataFrame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="955" column="43" selection-start-line="955" selection-start-column="34" selection-end-line="955" selection-end-column="43" />
+            <state relative-caret-position="6990">
+              <caret line="466" column="36" selection-start-line="466" selection-start-column="36" selection-end-line="466" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#16034#16035#0" expanded="true" />
+                <element signature="e#16081#16082#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -73,8 +81,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pckg/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="19" column="45" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
+            <state relative-caret-position="330">
+              <caret line="26" selection-start-line="26" selection-end-line="26" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -121,8 +129,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>emptydat</find>
-      <find>grou</find>
       <find>&lt; 5</find>
       <find>var()</find>
       <find>grouped</find>
@@ -151,6 +157,8 @@
       <find>tostring()</find>
       <find>toString</find>
       <find>maxinco</find>
+      <find>row(</find>
+      <find>creator(str</find>
     </findStrings>
     <replaceStrings>
       <replace>pair</replace>
@@ -169,7 +177,6 @@
         <option value="$PROJECT_DIR$/src/pckg/Median.java" />
         <option value="$PROJECT_DIR$/src/pckg/WrongValueTypeException.java" />
         <option value="$PROJECT_DIR$/src/pckg/DividingByZeroException.java" />
-        <option value="$PROJECT_DIR$/src/pckg/Main.java" />
         <option value="$PROJECT_DIR$/src/pckg/Value.java" />
         <option value="$PROJECT_DIR$/src/pckg/DoubleValue.java" />
         <option value="$PROJECT_DIR$/src/pckg/CooValue.java" />
@@ -177,6 +184,7 @@
         <option value="$PROJECT_DIR$/src/pckg/FloatValue.java" />
         <option value="$PROJECT_DIR$/src/pckg/IntegerValue.java" />
         <option value="$PROJECT_DIR$/src/pckg/StringValue.java" />
+        <option value="$PROJECT_DIR$/src/pckg/Main.java" />
         <option value="$PROJECT_DIR$/src/pckg/DataFrame.java" />
       </list>
     </option>
@@ -199,35 +207,14 @@
     </navigator>
     <panes>
       <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="ZadaniaDomowe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ZadaniaDomowe" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ZadaniaDomowe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ZadaniaDomowe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ZadaniaDomowe" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ZadaniaDomowe" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="pckg" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="ProjectPane" />
       <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542360731764" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544118564708" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -338,11 +325,18 @@
       <workItem from="1542751952768" duration="1080000" />
       <workItem from="1542836867174" duration="1353000" />
       <workItem from="1543516222366" duration="2019000" />
+      <workItem from="1543568274928" duration="177000" />
+      <workItem from="1543578755431" duration="2713000" />
+      <workItem from="1543956183614" duration="966000" />
+      <workItem from="1543960982245" duration="211000" />
+      <workItem from="1544115353698" duration="1834000" />
+      <workItem from="1544291929703" duration="349000" />
+      <workItem from="1544376689575" duration="776000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="203552000" />
+    <option name="totallyTimeSpent" value="210578000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -355,7 +349,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="1" />
@@ -363,10 +356,10 @@
       <window_info id="UI Designer" order="3" />
       <window_info id="Capture Tool" order="4" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="6" visible="true" weight="0.264166" />
+      <window_info content_ui="combo" id="Project" order="6" visible="true" weight="0.30247405" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.29690048" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29641694" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.38360655" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -545,6 +538,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/pckg/DataFrame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6990">
+          <caret line="466" column="36" selection-start-line="466" selection-start-column="36" selection-end-line="466" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#16034#16035#0" expanded="true" />
+            <element signature="e#16081#16082#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/pckg/DividingByZeroException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -559,6 +564,16 @@
           <folding>
             <element signature="e#3641#3642#0" expanded="true" />
             <element signature="e#3669#3670#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pckg/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -581,26 +596,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pckg/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="19" column="45" selection-start-line="19" selection-start-column="45" selection-end-line="19" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/pckg/DataFrame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="955" column="43" selection-start-line="955" selection-start-column="34" selection-end-line="955" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>

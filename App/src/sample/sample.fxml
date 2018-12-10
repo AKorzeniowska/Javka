@@ -9,9 +9,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-   <children>
-      <AnchorPane prefHeight="391.0" prefWidth="379.0">
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TableView?>
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="380.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <tabs>
+   <Tab fx:id="load" text="Load File">
+   <content>
+   <AnchorPane prefHeight="391.0" prefWidth="379.0">
          <children>
             <Button fx:id="nazwa" layoutX="65.0" layoutY="14.0" mnemonicParsing="false" onAction="#wczytywanko" prefHeight="32.0" prefWidth="250.0" text="Kliknij, aby wybrać pliczek" />
             <Label fx:id="okienkoWyników" alignment="CENTER" contentDisplay="TOP" layoutX="18.0" layoutY="202.0" prefHeight="164.0" prefWidth="344.0" textAlignment="CENTER">
@@ -34,11 +39,23 @@
             <TextField fx:id="putColnames" layoutX="181.0" layoutY="176.0" prefHeight="26.0" prefWidth="129.0" />
             <TextField fx:id="putGroupby" layoutX="104.0" layoutY="69.0" />
          </children></AnchorPane>
-   </children>
-   <rowConstraints>
-      <RowConstraints />
-   </rowConstraints>
-   <columnConstraints>
-      <ColumnConstraints />
-   </columnConstraints>
-</GridPane>
+   </content>
+   </Tab>
+      <Tab fx:id="view" disable="true" text="View">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="dataFrameTable" layoutX="-2.0" layoutY="1.0" prefHeight="370" prefWidth="450" />
+               </children></AnchorPane>
+         </content>
+      </Tab>
+      <Tab fx:id="output" disable="true" text="Output">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TableView fx:id="countedTable" layoutX="-2.0" layoutY="1.0" prefHeight="370" prefWidth="450" />
+               </children></AnchorPane>
+         </content>
+      </Tab>
+   </tabs>
+</TabPane>

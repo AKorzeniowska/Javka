@@ -8,10 +8,10 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException, InvocationTargetException, IllegalAccessException {
-        DataFrame najnowszy=new DataFrame("groupby (copy).csv",new Class[] {StringValue.class, DateTimeValue.class, DoubleValue.class, DoubleValue.class});
-        DataFrame.DataMap n=najnowszy.groupby(new String[] {"id"});
+//        DataFrame najnowszy=new DataFrame("groupby (copy).csv",new Class[] {StringValue.class, DateTimeValue.class, DoubleValue.class, DoubleValue.class});
+//        DataFrame.DataMap n=najnowszy.groupby(new String[] {"id"});
 //        System.out.println(n.max());
-        System.out.println(n.min());
+//        System.out.println(n.min());
 //        System.out.println(n.sum());
 //        System.out.println(n.mean());
 //        System.out.println(n.var());
@@ -25,7 +25,8 @@ public class Main {
 //        n.std(); System.out.println("std");
 
 
-
+//        System.out.println(DataFrame.creator("0", new IntegerValue(2)));
+        System.out.println(DataFrame.creatorFromClass("2",IntegerValue.class)+" "+DataFrame.creatorFromClass("2",IntegerValue.class).getClass());
 
 //        DataFrame roboczy=new DataFrame(new String[] {"id", "id2", "kol1", "kol2", "kol3"}, new Class[] {StringValue.class, StringValue.class, IntegerValue.class, IntegerValue.class, IntegerValue.class});
 //        roboczy.addElement(new Value[] {new StringValue("a"),new StringValue( "x"), new IntegerValue(1), new IntegerValue(7),new IntegerValue( 13)});
@@ -34,7 +35,9 @@ public class Main {
 //        roboczy.addElement(new Value[] {new StringValue("b"),new StringValue( "y"), new IntegerValue(4), new IntegerValue(10),new IntegerValue( 16)});
 //        roboczy.addElement(new Value[] {new StringValue("a"),new StringValue( "x"), new IntegerValue(5), new IntegerValue(11),new IntegerValue( 17)});
 //        roboczy.addElement(new Value[] {new StringValue("b"),new StringValue( "x"), new IntegerValue(6), new IntegerValue(12),new IntegerValue( 18)});
-//
+//        System.out.println(roboczy.numberOfRows());
+//        System.out.println(roboczy.getRow(2));
+        //
 //        DataFrame.DataMap groupby=roboczy.groupby(new String[] {"id", "id2"});
 //        System.out.println(groupby);
 //
