@@ -3,16 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/App/sample/chart.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/App/sample/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/App/sample/sample.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Chart.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sample/chart.fxml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/sample/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/sample.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ZadaniaDomowe/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../ZadaniaDomowe/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ZadaniaDomowe/src/pckg/DataFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ZadaniaDomowe/src/pckg/DataFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../ZadaniaDomowe/src/pckg/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../ZadaniaDomowe/src/pckg/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DataBase/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../DataBase/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DataBase/DataBase.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../DataBase/DataBase.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DataBase/src/pckg/DB.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DataBase/src/pckg/DB.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DataBase/src/pckg/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../DataBase/src/pckg/Main.java" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -83,8 +80,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
+            <state relative-caret-position="418">
+              <caret line="195" lean-forward="true" selection-start-line="195" selection-end-line="195" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -106,12 +103,12 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
+          <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="376">
-              <caret line="55" column="53" lean-forward="true" selection-start-line="55" selection-start-column="53" selection-end-line="55" selection-end-column="53" />
+            <state relative-caret-position="930">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
             </state>
           </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder" />
         </entry>
       </file>
     </leaf>
@@ -209,7 +206,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544028450038" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -333,17 +330,19 @@
       <workItem from="1543960965630" duration="1178000" />
       <workItem from="1544027669096" duration="778000" />
       <workItem from="1544029152994" duration="878000" />
+      <workItem from="1544722323056" duration="726000" />
+      <workItem from="1544740884259" duration="7000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18442000" />
+    <option name="totallyTimeSpent" value="19175000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.25139666" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.25937748" />
       <window_info id="Structure" order="1" weight="0.24980047" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -352,7 +351,7 @@
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32899022" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.18566775" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.18566775" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -387,6 +386,16 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/sample/Chart.java" />
     <entry file="file://$PROJECT_DIR$/src/sample/chart.fxml" />
+    <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="195" lean-forward="true" selection-start-line="195" selection-end-line="195" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
@@ -399,21 +408,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="55" column="53" lean-forward="true" selection-start-line="55" selection-start-column="53" selection-end-line="55" selection-end-column="53" />
+        <state relative-caret-position="930">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
         </state>
       </provider>
       <provider editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="185" lean-forward="true" selection-start-line="185" selection-end-line="185" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
   </component>
   <component name="masterDetails">

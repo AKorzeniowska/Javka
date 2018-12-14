@@ -11,17 +11,17 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../Javka/ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/" />
+          <root url="jar://$MODULE_DIR$/../ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$MODULE_DIR$/../Javka/ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.base" />
-          <root url="jar://$MODULE_DIR$/../Javka/ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.controls" />
-          <root url="jar://$MODULE_DIR$/../Javka/ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.fxml" />
-          <root url="jar://$MODULE_DIR$/../Javka/ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.graphics" />
-          <root url="jar://$MODULE_DIR$/../Javka/ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.media" />
-          <root url="jar://$MODULE_DIR$/../Javka/ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.swing" />
-          <root url="jar://$MODULE_DIR$/../Javka/ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.web" />
+          <root url="jar://$MODULE_DIR$/../ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.base" />
+          <root url="jar://$MODULE_DIR$/../ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.controls" />
+          <root url="jar://$MODULE_DIR$/../ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.fxml" />
+          <root url="jar://$MODULE_DIR$/../ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.graphics" />
+          <root url="jar://$MODULE_DIR$/../ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.media" />
+          <root url="jar://$MODULE_DIR$/../ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.swing" />
+          <root url="jar://$MODULE_DIR$/../ZadaniaDomowe/out/artifacts/ZadaniaDomowe_jar/ZadaniaDomowe.jar!/javafx.web" />
         </SOURCES>
       </library>
     </orderEntry>

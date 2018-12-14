@@ -27,6 +27,7 @@ public class Controller {
     public Tab load;
     public Tab view;
     public Tab output;
+    public Tab charter;
 
     public Button nazwa;
     public Label okienkoWyników;
@@ -38,6 +39,8 @@ public class Controller {
     public Button countVar;
     public Button countStd;
     public Button doChart;
+
+    public LineChart<?, ?> chart=null;
 
     public VBox vbox= new VBox();
     public TableView<ArrayList<? extends Value>> dataFrameTable;
@@ -159,7 +162,6 @@ public class Controller {
                 final CategoryAxis xAxisString = new CategoryAxis();
                 final NumberAxis xAxisNumber = new NumberAxis();
                 final NumberAxis yAxis = new NumberAxis();
-                final LineChart<?, ?> chart;
 
                 Value[] axisX = counted.wholeColumn(data[0]);
                 Value[] axisY = counted.wholeColumn(data[1]);

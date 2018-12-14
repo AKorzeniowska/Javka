@@ -1,6 +1,8 @@
 package pckg;
 
 import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +33,12 @@ public class DB extends DataFrame{
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
+            System.exit(0);
         }catch(Exception e){e.printStackTrace();}
     }
 
     public void createTable(){
+        connect();
         try {
             statement = connection.createStatement();
         } catch (SQLException e) {
@@ -46,7 +50,6 @@ public class DB extends DataFrame{
                 "   dated DATE NOT NULL," +
                 "   val DOUBLE NOT NULL," +
                 "   total DOUBLE NOT NULL);";
-
         try {
             statement.executeUpdate(data);
         } catch (SQLException e) {
@@ -54,29 +57,47 @@ public class DB extends DataFrame{
         }
     }
 
+    public DataFrame insertPartToTable (String address, Class<? extends  Value>[] typesInput, int range) throws IOException {
+        connect();
+        createTable();
+        try {
+            statement=connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        DataFrame all=new DataFrame(address, typesInput);
+        DataFrame output=all.iloc(0,range);
+        FileInputStream fstream=null;
+        BufferedReader br;
+        try {
+            fstream = new FileInputStream(address);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        br = new BufferedReader(new InputStreamReader(fstream));
+
+        String strLine;
+        String[] separated;
+        strLine = br.readLine();
+        for (int j = 0; j < range; j++) {
+            strLine = br.readLine();
+            separated = strLine.split(",");
+            String data="insert ignore into DataFrame values ('"+separated[0]+"', '"+separated[1]+"', "+separated[2]+", "+separated[3]+");";
+            try {
+                statement.executeUpdate(data);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        br.close();
+        return output;
+    }
+
     public DataFrame insertToTable(String address, Class<? extends Value>[] typesInput) throws IOException {
         DataFrame output=new DataFrame(address, typesInput);
         connect();
         createTable();
-
-//        FileInputStream fstream = null;
-//        BufferedReader br;
-//        try {
-//            fstream = new FileInputStream(address);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        br = new BufferedReader(new InputStreamReader(fstream));
-//
-//        String strLine;
-//        strLine = br.readLine();
-//        String [] colsInput = strLine.split(",");
-//
-//        for (int i = 0; i < typesInput.length; i++) {
-//            classes.add(typesInput[i]);
-//            cols.add(colsInput[i]);
-//        }
-
         String data=" LOAD DATA LOCAL INFILE \'" + address +
                 "\' REPLACE INTO TABLE DataFrame" +
                 " FIELDS TERMINATED BY \',\'" +
@@ -87,10 +108,10 @@ public class DB extends DataFrame{
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-        System.out.println("blep");
-//        br.close();
         return output;
     }
+
+
 
     public Class classed (String input){
         Class output=null;
@@ -168,7 +189,7 @@ public class DB extends DataFrame{
 
 
         DataFrame output=null;
-        String command="select id, dated, val, total from DataFrame order by id;";
+        String command="select * from DataFrame order by id;";
         try {
             statement=connection.createStatement();
             resultSet = statement.executeQuery(command);
