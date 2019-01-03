@@ -47,7 +47,7 @@ public class Controller {
     private ObservableList<ArrayList<? extends Value>> dataForDataFrameTable = FXCollections.observableArrayList();
 
     public VBox vboxCounted=new VBox();
-    public TableView<ArrayList<? extends Value>> countedTable;
+    public TableView<ArrayList<? extends Value>> countedTable=new TableView<>();
     private ObservableList<ArrayList<? extends Value>> dataForCountedTable = FXCollections.observableArrayList();
 
     public TextField putColnames;
@@ -208,6 +208,10 @@ public class Controller {
 
     public void howAboutATable(DataFrame onIt, VBox toIt, TableView<ArrayList<? extends Value>> table, ObservableList<ArrayList<? extends Value>> dataForTable){
         toIt.getChildren().clear();
+        table.getColumns().clear();
+        dataForTable.clear();
+
+
         for (String a : onIt.getCols()){
             Label label=new Label(a);
             toIt.getChildren().add(label);

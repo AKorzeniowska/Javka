@@ -184,7 +184,7 @@ public class DB extends DataFrame{
         return selectDataFrame("SELECT id, MIN(dated), MIN(val), MIN(total) FROM DataFrame group by id;");
     }
 
-    public DataMap groupby(){
+    public DataMap groupby(String toGroup){
         DataMap outputmap= new DataMap();
 
 
@@ -214,15 +214,24 @@ public class DB extends DataFrame{
 
             output=new DataFrame(colnames, clazz);
 
-            Value key=buff.get(0)[0];
+            int keyLoc=0;
+            for (int i=0; i<metaData.getColumnCount(); i++){
+                if (metaData.getColumnName(i+1).equals(toGroup)){
+                    keyLoc=i;
+                    break;
+                }
+            }
+
+            Value key=buff.get(0)[keyLoc];
+
             for (Value [] value : buff) {
-                if (value[0].eq(key))
+                if (value[keyLoc].eq(key))
                     output.addElement(value);
                 else{
                     List<Value> cols=new ArrayList<>();
                     cols.add(key);
                     outputmap.addFrame(cols, output);
-                    key=value[0];
+                    key=value[keyLoc];
                     output=new DataFrame(colnames, clazz);
                     output.addElement(value);
                 }

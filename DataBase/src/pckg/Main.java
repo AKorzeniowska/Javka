@@ -11,10 +11,10 @@ public class Main {
         base.connect();
 //        base.insertToTable("groupby.csv",new Class[] {StringValue.class, DateTimeValue.class, DoubleValue.class, DoubleValue.class});
 //        base.insertPartToTable("groupby.csv",new Class[] {StringValue.class, DateTimeValue.class, DoubleValue.class, DoubleValue.class}, 100);
-//        DataFrame data=base.selectDataFrame("SELECT id, dated, total FROM DataFrame where id='a' and val<0;");
-//        System.out.println(data.toString());
+        DataFrame data=base.selectDataFrame("SELECT id, total FROM DataFrame where id='a';");
+        System.out.println(data.toString());
 //        System.out.println(base.max());
-        DataFrame.DataMap map=base.groupby();
-        System.out.println(map.toString());
+//        DataFrame.DataMap map=base.groupby("id");
+//        System.out.println(map.toString());
     }
 }

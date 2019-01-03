@@ -22,6 +22,14 @@ public class DataFrame {
         dataBase.clear();
     }
 
+    public DataFrame (DataFrame toCopy){
+        cols=toCopy.cols;
+        classes=toCopy.classes;
+        for (Map.Entry<String, ArrayList<Value>> entry : toCopy.dataBase.entrySet()){
+            dataBase.put(entry.getKey(), entry.getValue());
+        }
+    }
+
     /**
      * Constructor for DataFrame Class
      * adds column types and names to types and cols Lists
@@ -39,6 +47,15 @@ public class DataFrame {
         for (int i = 0; i < colsInput.length; i++) {
             ArrayList<Value> helped = new ArrayList<>();
             dataBase.put(colsInput[i], helped);
+        }
+    }
+
+    public DataFrame (List<String> colsInput, List<Class<? extends Value>> typesInput){
+        classes=typesInput;
+        cols=colsInput;
+        for (int i=0; i<colsInput.size(); i++){
+            ArrayList<Value> helped=new ArrayList<>();
+            dataBase.put(colsInput.get(i), helped);
         }
     }
 
